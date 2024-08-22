@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="Página web de venta de lotes">
+    <meta name="keywords" content="Lotes,Terrenos,Loteador,Desarrollos">
+    <meta name="author" content="Panax IT">
+
+    <meta property="og:site_name" content="peninsularesidencial.mx" />
+    <meta property="og:site" content="" />
+    <meta property="og:title" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Title -->
+    <title>Peninsula</title>
+
+    <!-- Styles -->
+    <link rel="xover-manifest" href="manifest.json?v=20240401_0945">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="assets/fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/fontawesome-all.min.css" rel="stylesheet">
+    <link href="./css/aos.min.css" rel="stylesheet">
+    <link href="./css/swiper.css" rel="stylesheet">
+    <link href="./css/style.css?v=20240401_0945" rel="stylesheet">
+    <script type="text/javascript" src="xover/xo.js?v=20240401_0945"></script>
+    <script type="text/javascript" src="custom.js?v=20240401_0945"></script>
+    <link rel="icon" href="./assets/img/icon.png" type="image/x-icon" />
+</head>
+<body class="styled-scroll">
+    <!-- Navbar -->
+    <nav id="navbar" class="navbar navbar-expand-lg fixed-top navbar-dark" aria-label="Main navigation" xo-source="navbar.html">
+    </nav>
+    <main>
+        <!-- Principal -->
+        <section class="home py-5 d-flex" id="header" style="padding-top: 1rem !important;">
+            <div class="container-fluid text-light px-4 py-3" style="height: 77vh; position: relative;">
+                <h1 class="headline logo-container" data-aos="fade-right" style="text-align: center; max-width: 27vw;">
+                    <img class="logo" src="./assets/img/logo.png" />
+                </h1>
+                <div class="py-3 h5 aos-init aos-animate" style="justify-content: end; display: flex; justify-content: end; display: flex; position: absolute; bottom: 3.5rem; width: 100%; font-size: 1rem; line-height: 1.5rem; max-width: 92vw; "><p class="para" data-aos="zoom-in" xo-source="#site" xo-stylesheet="resource.xslt" key="subtitulo" /></div>
+            </div>
+        </section>
+        <style>
+            section {
+                display: flex;
+                flex-direction: column;
+                padding-inline: 1rem;
+                padding-block: 2rem;
+                font-size: 1.4rem;
+            }
+
+            section li {
+                font-size: 1.3rem;
+            }
+
+            section .row > div {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
+
+            section em {
+                font-size: 1.1rem;
+                margin-block: 3rem 1rem;
+            }
+
+            section .title {
+                min-width: 300px;
+                text-align: center;
+                align-self: center;
+                color: white;
+            }
+
+            section:nth-child(even) {
+                background-image: url(../assets/img/2.jpg);
+                color: black;
+            }
+
+            section:nth-child(odd), section.section-dark {
+                background: url(../assets/img/1.jpg);
+                color: white;
+            }
+
+            section {
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+
+            section.home {
+                background-image: url(../assets/img/home.jpg);
+                background-size: cover;
+                background-position: bottom;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-position-y: 30px;
+            }
+
+            section:nth-child(even) .title {
+                color: white;
+                background: var(--brand-dark-color);
+            }
+
+            section:nth-child(odd) .title {
+                color: white;
+                background: var(--brand-light-color);
+            }
+
+            section:nth-child(even) .title h2 {
+                border: 2px solid var(--brand-light-color);
+            }
+
+            section:nth-child(odd) .title h2 {
+                border: 2px solid var(--brand-dark-color);
+            }
+
+            section .title h2 {
+                padding: 1rem;
+                margin: 1rem;
+                box-sizing: border-box;
+            }
+
+            section .title > h3, section .title > h4 {
+                padding: .5rem 1rem;
+            }
+
+            section:nth-child(odd) > h1, section:nth-child(odd) > h2, section:nth-child(odd) > h3, section:nth-child(odd) > h4 {
+                color: var(--brand-light-color);
+            }
+
+            section:nth-child(even) > h1, section:nth-child(even) > h2, section:nth-child(even) > h3, section:nth-child(even) > h4 {
+                color: var(--brand-dark-color);
+            }
+
+            section > h1, section > h2, section > h3, section > h4 {
+                align-self: center;
+                padding: 1rem;
+                text-align: center;
+                /*text-transform: capitalize;*/
+            }
+
+            section .row div:has(.img-fluid) {
+                display: flex;
+                justify-content: center;
+            }
+        </style>
+        <style>
+            section li {
+                margin-block: 1rem;
+            }
+
+            section li[class] {
+                position: relative;
+                padding-left: 65px;
+            }
+
+            li[class]::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                background-size: 50px 50px; /* Adjust to your image size */
+                width: 50px; /* Width of the image */
+                height: 50px; /* Height of the image */
+            }
+
+            li.doble-sentido::before {
+                background-image: url('assets/img/arrows.png');
+            }
+
+            li.handicap::before {
+                background-image: url('assets/img/wheelchair.png');
+            }
+
+            li.service::before {
+                background-image: url('assets/img/delivery.png');
+            }
+
+            .img-fluid {
+                max-height: 80vh;
+            }
+        </style>
+
+        <section>
+            <div class="title">
+                <h2>TERRENOS RESIDENCIALES desde 125m<sup>2</sup></h2>
+            </div>
+            <h4>con superficies planas para mínimo movimiento de tierras</h4>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-5 d-flex align-items-center flex-column justify-content-around" data-aos="fade-right">
+                        Península presenta una oportunidad única en la zona debido a la ya escasa existencia de
+                        reservas territoriales para proyectos residenciales dentro de la Mancha Urbana de la ciudad.
+                    </div>
+                    <div class="col-12 col-md-7" data-aos="zoom">
+                        <img class="img-fluid" src="./assets/img/lote.jpg" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="title">
+                <h2>MASTERPLAN</h2>
+            </div>
+            <h4>diseñado para una verdadera comunidad</h4>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-5 d-flex align-items-center flex-column justify-content-around" data-aos="fade-right">
+                        <ul>
+                            <li class="doble-sentido">Dos carriles de entrada, dos de salida.</li>
+                            <li class="handicap">Enfoque en movilidad para capacidades diferentes.</li>
+                            <li class="service">Carril exclusivo de entrada para delivery por acceso posterior de servicio.</li>
+                        </ul>
+                        <em>
+                            * Ficha técnica de cada lote y detalles de las amenidades disponibles con tu asesor de Península, Welness Community®
+                        </em>
+                    </div>
+                    <div class="col-12 col-md-7" data-aos="zoom">
+                        <img class="img-fluid" src="./assets/img/masterplan.png" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="title">
+                <h2>TU VIDA DIARIA</h2>
+            </div>
+            <h4>a menos de 10 minutos</h4>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-5 d-flex align-items-center flex-column justify-content-around" data-aos="fade-right">
+                        <table class="table table-strapped">
+                            <tr><td>Colegio Andes</td><td>8 mins</td></tr>
+                            <tr><td>Colegio Real</td><td>8 mins</td></tr>
+                            <tr><td>The Park</td><td>8 mins</td></tr>
+                            <tr><td>Plaza San Luis</td><td>8 mins</td></tr>
+                            <tr><td>Parque Tangamanga</td><td>8 mins</td></tr>
+                            <tr><td>Zona Industrial</td><td>5 mins</td></tr>
+                        </table>
+                        <em>* Tiempo estimado en trayectos con tráfico regular</em>
+                    </div>
+                    <div class="col-12 col-md-7" data-aos="zoom">
+                        <img class="img-fluid" src="./assets/img/ubicacion.png" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="title">
+                <h2>Jardín Península</h2>
+            </div>
+            <h4>
+                10,000 m<sup>2</sup> de amenidades en un espacio para la convivencia, recreación y deporte.
+            </h4>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-5 d-flex align-items-center flex-column justify-content-around" data-aos="fade-right">
+                        <p style="font-size: 1.2rem;">
+                            Ubicado en el corazón de Península, Jardín Península será el centro y punto de encuentro para quienes integrarán nuestra nueva comunidad. Estará integrado por diversas instalaciones recreativas, deportivas y de convivencia:
+                        </p>
+                        <ul>
+                            <li><strong>Huerto</strong></li>
+                            <li><strong>Casa Club</strong></li>
+                            <li><strong>Alberca</strong></li>
+                            <li><strong>Asadores</strong></li>
+                            <li><strong>Kids Zone</strong></li>
+                            <li><strong>Pet Park</strong></li>
+                            <li><strong>Sport Zone: </strong>cancha de usos múltiples, cancha de padel, andadores para Jogging.</li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md-7" data-aos="zoom">
+                        <div xo-source="#desarrollos" xo-stylesheet="gallery.xslt">
+                            <img class="img-fluid" src="./assets/img/jardin_peninsula.jpg" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+                <style>
+                    article img {
+                        display: block;
+                        height: 100%;
+                        max-height: 300px;
+                    }
+
+                    section {
+                        width: 100%;
+                        overflow: hidden;
+                    }
+
+                    article {
+                        display: flex;
+                        width: 200%;
+                        animation: bannermove 20s linear infinite;
+                    }
+
+                    article.paused {
+                        -webkit-animation-play-state: paused;
+                        animation-play-state: paused;
+                    }
+
+                    article ul {
+                        display: flex;
+                        list-style-type: none;
+                        padding-left: 0;
+                        margin: 0;
+                    }
+
+                    @keyframes bannermove {
+                        0% {
+                            transform: translateX(0);
+                        }
+
+                        100% {
+                            transform: translateX(-50%);
+                        }
+                    }
+                </style>
+                <!--<button>Pause</button>-->
+                <article>
+                    <div class="row">
+                        <ul>
+                            <li><img src="./assets/gallery/beautiful-girl-running-park.jpg" /></li>
+                            <li><img src="./assets/gallery/beautiful-women-works-garden.jpg" /></li>
+                            <li><img src="./assets/gallery/dad-swimming-with-his-happy-son-pool.jpg" /></li>
+                            <li><img src="./assets/gallery/elegant-mother-with-daughter-summer-forest.jpg" /></li>
+                            <li><img src="./assets/gallery/female-tennis-player-tennis-court.jpg" /></li>
+                            <li><img src="./assets/gallery/fountains-garden.jpg" /></li>
+                            <li><img src="./assets/gallery/front-view-woman-legs-running-outside.jpg" /></li>
+                            <li><img src="./assets/gallery/portrait-couple-with-their-dog-park.jpg" /></li>
+                            <li><img src="./assets/gallery/running-twenties-hispanic-lifestyle-laughing.jpg" /></li>
+                            <li><img src="./assets/gallery/side-view-happy-woman-nature.jpg" /></li>
+                            <li><img src="./assets/gallery/side-view-woman-holding-palette.jpg" /></li>
+                            <li><img src="./assets/gallery/side-view-woman-standing-outdoors.jpg" /></li>
+                            <li><img src="./assets/gallery/young-happy-man-browsing-internet-touchpad-while-relaxing-sofa-living-room.jpg" /></li>
+                            <li><img src="./assets/gallery/young-men-roasting-barbecue-grill-cottage-countryside.jpg" /></li>
+                            <li><img src="./assets/gallery/young-woman-with-her-dog-park.jpg" /></li>
+                        </ul>
+                    </div>
+                    <div class="row">
+                        <ul>
+                            <li><img src="./assets/gallery/beautiful-girl-running-park.jpg" /></li>
+                            <li><img src="./assets/gallery/beautiful-women-works-garden.jpg" /></li>
+                            <li><img src="./assets/gallery/dad-swimming-with-his-happy-son-pool.jpg" /></li>
+                            <li><img src="./assets/gallery/elegant-mother-with-daughter-summer-forest.jpg" /></li>
+                            <li><img src="./assets/gallery/female-tennis-player-tennis-court.jpg" /></li>
+                            <li><img src="./assets/gallery/fountains-garden.jpg" /></li>
+                            <li><img src="./assets/gallery/front-view-woman-legs-running-outside.jpg" /></li>
+                            <li><img src="./assets/gallery/portrait-couple-with-their-dog-park.jpg" /></li>
+                            <li><img src="./assets/gallery/running-twenties-hispanic-lifestyle-laughing.jpg" /></li>
+                            <li><img src="./assets/gallery/side-view-happy-woman-nature.jpg" /></li>
+                            <li><img src="./assets/gallery/side-view-woman-holding-palette.jpg" /></li>
+                            <li><img src="./assets/gallery/side-view-woman-standing-outdoors.jpg" /></li>
+                            <li><img src="./assets/gallery/young-happy-man-browsing-internet-touchpad-while-relaxing-sofa-living-room.jpg" /></li>
+                            <li><img src="./assets/gallery/young-men-roasting-barbecue-grill-cottage-countryside.jpg" /></li>
+                            <li><img src="./assets/gallery/young-woman-with-her-dog-park.jpg" /></li>
+                        </ul>
+                    </div>
+                    <!--<div class="row">
+                        <ul>
+                            <li><img src="http://dummyimage.com/600x400/000000/ffffff.png" /></li>
+                            <li><img src="http://dummyimage.com/600x400/eeeeee/cccccc.png" /></li>
+                            <li><img src="http://dummyimage.com/600x400/000000/ffffff.png" /></li>
+                            <li><img src="http://dummyimage.com/600x400/eeeeee/cccccc.png" /></li>
+                        </ul>
+                    </div>-->
+                </article>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <section class="footer section-dark">
+        <div class="container">
+            <div class="row d-flex justify-content-center m" data-aos="zoom">
+                <img class="logo" src="./assets/desarrollos/peninsula/brand/pareja/isotipo_vertical_letras_blancas.png" style="max-width: 200px; margin: 5rem;" />
+            </div>
+            <div class="row" data-aos="fade-right">
+                <div class="col-12 py-2">
+                    <div class="d-flex align-items-evenly justify-content-center" style="gap:50px;">
+                        <div class="d-flex align-items-center py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                            <i class="fas fa-caret-right"></i>
+                            <a href="#aviso_privacidad">
+                                <p class="ms-3">
+                                    Aviso de privacidad
+                                </p>
+                            </a>
+                        </div>
+                        <div class="d-flex align-items-center py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                            <i class="fas fa-caret-right"></i>
+                            <a href="#codigo_etica">
+                                <p class="ms-3">
+                                    Código de ética
+                                </p>
+                            </a>
+                        </div>
+                        <div class="d-flex align-items-center py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                            <i class="fas fa-caret-right"></i>
+                            <a href="#terminos_condiciones">
+                                <p class="ms-3">
+                                    Términos y condiciones
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="offcanvas offcanvas-bottom xo-skip-compare" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel" xo-stylesheet="content-manager.xslt" xo-source="active">
+    </div>
+
+    <!-- Bottom -->
+    <footer xo-source="footer.html"></footer>
+    <!-- end of back to top button -->
+    <!-- Scripts -->
+    <script src="./js/bootstrap.min.js"></script><!-- Bootstrap framework -->
+    <!-- <script src="./js/purecounter.min.js"></script>  -->
+    <!-- Purecounter counter for statistics numbers -->
+    <script src="./js/swiper.min.js"></script>
+    <!-- Swiper for image and text sliders -->
+    <script src="./js/aos.js"></script>
+    <!-- AOS on Animation Scroll -->
+</body>
+</html>
