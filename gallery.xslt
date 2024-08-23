@@ -21,7 +21,7 @@
 		<div id="carousel_{$desarrollo}" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
 			<div class="carousel-inner" xo-source="#{$desarrollo}:gallery" xo-stylesheet="desarrollos-gallery.xslt" desarrollo="{$desarrollo}">
 				<div class="carousel-item">
-					<img src="/assets/desarrollos/{$desarrollo}/cover.jpg" alt="" class="img-fluid d-block w-100" />
+					<img src="./assets/desarrollos/{$desarrollo}/cover.jpg" alt="" class="img-fluid d-block w-100" />
 				</div>
 			</div>
 			<button class="carousel-control-prev" type="button" data-bs-target="#carousel_{$desarrollo}" data-bs-slide="prev">
