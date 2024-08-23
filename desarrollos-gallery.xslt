@@ -134,7 +134,7 @@
 			<xsl:if test="position()=1">active</xsl:if>
 		</xsl:variable>
 		<div class="carousel-item {$active}">
-			<img class="d-block w-100" src="/assets/desarrollos/{$desarrollo}/{$src}" alt="{$desarrollo}" fetchPriority="low"/>
+			<img class="d-block w-100" src="./assets/desarrollos/{$desarrollo}/{$src}" alt="{$desarrollo}" fetchPriority="low"/>
 		</div>
 	</xsl:template>
 </xsl:stylesheet>
