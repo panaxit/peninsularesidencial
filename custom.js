@@ -128,8 +128,11 @@ xover.server.ws = function (url, listeners = {}) {
         if (!window.io) return;
         const socket_io = window.io(url, { transports: ['websocket'] });
 
-        for ([listener, handler] of Object.entries(listeners)) {
+        for (let [listener, handler] of Object.entries(listeners)) {
             socket_io.on(listener, async function (...args) {
+                //let data = event.data || "[]";
+                //let args2 = JSON.parse(`[` + data.split("[")[1]);
+                //let [, file_name] = args;
                 if (!handler) {
                     return
                 } else if (existsFunction(handler)) {
@@ -139,14 +142,14 @@ xover.server.ws = function (url, listeners = {}) {
                     let source = xo.sources[handler];
                     await source.ready;
                     source.documentElement.append(xo.xml.createNode(`<item/ >`).textContent = args.join())
-                }
+                } else if (handler.indexOf("event:") == 0) {
+                    window.document.dispatch.apply(document, [handler.split(":").pop(), ...args])
+                } else {
+                    window.document.dispatch.apply(document, [handler, ...args])
+                } 
             })
         }
     } catch (e) {
         return Promise.reject(e);
     }
-}
-
-function reloadStylesheets() {
-    xo.site.stylesheets.reload()
 }

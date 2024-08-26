@@ -19,7 +19,7 @@
         "ws://localhost:8003",
         {
           "message": "#messages",
-          "changed": "reloadStylesheets"
+          "hotreload": "event:hotreload"
         }
       ]
     }
@@ -30,7 +30,7 @@
   "state": {
     "desarrollo": "${(xover.site.seed || '').replace(/^#/,'')}"
   },
-  "start": [ "#desarrollos", "#site", "./navbar.html", "./footer.html", "./iconos.xslt" ],
+  "start": [ "#desarrollos", "#site", "./navbar.html", "./footer.html", "./iconos.xslt", "#ws" ],
   "settings": {
     "~.map": {
       "headers": {

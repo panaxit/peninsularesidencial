@@ -46,6 +46,14 @@
     --polygon-bg-color: var(--brand-light-color);
 }
 
+.two-columns {
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+    list-style-type: none; /* Remove default bullets if needed */
+    padding: 0; /* Remove padding if needed */
+}
+
 .home .logo {
     max-width: 220px;
 }
@@ -153,6 +161,10 @@ main #header p {
 .styled-scroll {
     scrollbar-width: thin;
     scrollbar-color: var(--sitemap-scrollbar-background);
+}
+
+dialog.xover-component form > * {
+    background-color: initial;
 }
 
 dialog #content .content-container {
@@ -284,6 +296,8 @@ button {
 section p {
     font-size: 1.4rem;
     min-width: 400px;
+    /*font-size: clamp(1rem, 1.2rem, 1rem);*/
+    margin: auto;
 }
 
 p,
@@ -320,6 +334,7 @@ li {
 
 .footer {
     background: url(../assets/img/1.jpg);
+    padding-bottom: 3rem;
 }
 
 .section-h {
@@ -967,6 +982,10 @@ li {
 }
 
 .logo-footer {
+    filter: brightness(0) invert(1);
+}
+
+.logo-footer {
     display: table-cell;
     vertical-align: middle;
 }
@@ -1008,12 +1027,12 @@ li {
         background-color: var(--bg-body-color);
     }
 
-        .navbar.top-nav-collapse {
-            padding-top: 0.2rem;
-            padding-bottom: 0.2rem;
-            background-color: var(--bg-body-color);
-            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.025);
-        }
+    .navbar.top-nav-collapse {
+        padding-top: 0.2rem;
+        padding-bottom: 0.2rem;
+        background-color: var(--bg-body-color);
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.025);
+    }
 
     .offcanvas-collapse {
         position: static;

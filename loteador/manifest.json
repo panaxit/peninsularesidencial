@@ -1,0 +1,22 @@
+{
+  "sources": {
+    "^#(.+)$": "/assets/desarrollos/$1/lotes.xml",
+    "^#(.+):map$": "/assets/desarrollos/$1/loteador.map",
+    "^#(.+):settings$": "/assets/desarrollos/$1/loteador_settings.xml"
+  },
+  "start": ["#ws"],
+  "settings": {
+    "^#(.+)$": {
+      "headers": {
+        "cache": "no-store",
+        "Cache-Control": "no-cache"
+      }
+    },
+    ".resx": {
+      "headers": {
+        "cache": "no-store",
+        "Cache-Control": "no-cache"
+      }
+    }
+  }
+}

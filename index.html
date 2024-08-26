@@ -30,6 +30,7 @@
     <link href="./css/style.css?v=20240401_0945" rel="stylesheet">
     <script type="text/javascript" src="xover/xo.js?v=20240401_0945"></script>
     <script type="text/javascript" src="custom.js?v=20240401_0945"></script>
+    <script type="text/javascript" src="socket.io.js?v=20240823_0655"></script>
     <link rel="icon" href="./assets/img/icon.png" type="image/x-icon" />
 </head>
 <body class="styled-scroll">
@@ -43,7 +44,7 @@
                 <h1 class="headline logo-container" data-aos="fade-right" style="text-align: center; max-width: 27vw;">
                     <img class="logo" src="./assets/img/logo.png" />
                 </h1>
-                <div class="py-3 h5 aos-init aos-animate" style="justify-content: end; display: flex; justify-content: end; display: flex; position: absolute; bottom: 3.5rem; width: 100%; font-size: 1rem; line-height: 1.5rem; max-width: 92vw; "><p class="para" data-aos="zoom-in" xo-source="#site" xo-stylesheet="resource.xslt" key="subtitulo" /></div>
+                <div class="py-3 h5" style="justify-content: end; display: flex; justify-content: end; display: flex; position: absolute; bottom: 3.5rem; width: 100%; font-size: 1rem; line-height: 1.5rem; max-width: 92vw; "><p class="para" data-aos="zoom-in" xo-source="#site" xo-stylesheet="resource.xslt" key="subtitulo" /></div>
             </div>
         </section>
         <style>
@@ -76,10 +77,11 @@
                 color: white;
             }
 
-            section:nth-child(even) {
-                background-image: url(./assets/img/2.jpg);
-                color: black;
-            }
+                section:nth-child(even) {
+                    background-image: url(./assets/img/2.jpg);
+                    color: black;
+                    background-size: cover;
+                }
 
             section:nth-child(odd), section.section-dark {
                 background: url(./assets/img/1.jpg);
@@ -91,7 +93,6 @@
                 background-position: center;
                 background-repeat: no-repeat;
             }
-
 
             section.home {
                 background-image: url(./assets/img/home.jpg);
@@ -155,10 +156,10 @@
                 margin-block: 1rem;
             }
 
-            section li[class] {
-                position: relative;
-                padding-left: 65px;
-            }
+                section li[class] {
+                    position: relative;
+                    padding-left: 65px;
+                }
 
             li[class]::before {
                 content: '';
@@ -185,6 +186,13 @@
 
             .img-fluid {
                 max-height: 80vh;
+                object-fit: cover;
+                width: 100%;
+                height: auto
+            }
+
+            section table td {
+                white-space: nowrap;
             }
         </style>
 
@@ -195,11 +203,11 @@
             <h4>con superficies planas para mínimo movimiento de tierras</h4>
             <div class="container">
                 <div class="row">
-                    <div class="col-12 col-md-5 d-flex align-items-center flex-column justify-content-around" data-aos="fade-right">
+                    <div class="col-12 col-lg-5 d-flex align-items-center flex-column justify-content-around" data-aos="fade-right">
                         Península presenta una oportunidad única en la zona debido a la ya escasa existencia de
                         reservas territoriales para proyectos residenciales dentro de la Mancha Urbana de la ciudad.
                     </div>
-                    <div class="col-12 col-md-7" data-aos="zoom">
+                    <div class="col-12 col-lg-7" data-aos="zoom">
                         <img class="img-fluid" src="./assets/img/lote.jpg" />
                     </div>
                 </div>
@@ -213,7 +221,7 @@
             <h4>diseñado para una verdadera comunidad</h4>
             <div class="container">
                 <div class="row">
-                    <div class="col-12 col-md-5 d-flex align-items-center flex-column justify-content-around" data-aos="fade-right">
+                    <div class="col-12 col-lg-5 d-flex align-items-center flex-column justify-content-around" data-aos="fade-right">
                         <ul>
                             <li class="doble-sentido">Dos carriles de entrada, dos de salida.</li>
                             <li class="handicap">Enfoque en movilidad para capacidades diferentes.</li>
@@ -223,8 +231,10 @@
                             * Ficha técnica de cada lote y detalles de las amenidades disponibles con tu asesor de Península, Welness Community®
                         </em>
                     </div>
-                    <div class="col-12 col-md-7" data-aos="zoom">
-                        <img class="img-fluid" src="./assets/img/masterplan.png" />
+                    <div class="col-12 col-lg-7" data-aos="zoom">
+                        <a href="loteador#peninsula">
+                            <img id="masterplan" class="img-fluid" src="./assets/img/masterplan.png" />
+                        </a>
                     </div>
                 </div>
             </div>
@@ -237,7 +247,7 @@
             <h4>a menos de 10 minutos</h4>
             <div class="container">
                 <div class="row">
-                    <div class="col-12 col-md-5 d-flex align-items-center flex-column justify-content-around" data-aos="fade-right">
+                    <div class="col-12 col-lg-5 d-flex align-items-center flex-column justify-content-around" data-aos="fade-right">
                         <table class="table table-strapped">
                             <tr><td>Colegio Andes</td><td>8 mins</td></tr>
                             <tr><td>Colegio Real</td><td>8 mins</td></tr>
@@ -248,7 +258,7 @@
                         </table>
                         <em>* Tiempo estimado en trayectos con tráfico regular</em>
                     </div>
-                    <div class="col-12 col-md-7" data-aos="zoom">
+                    <div class="col-12 col-lg-7" data-aos="zoom">
                         <img class="img-fluid" src="./assets/img/ubicacion.png" />
                     </div>
                 </div>
@@ -259,28 +269,26 @@
             <div class="title">
                 <h2>Jardín Península</h2>
             </div>
-            <h4>
-                10,000 m<sup>2</sup> de amenidades en un espacio para la convivencia, recreación y deporte.
-            </h4>
+            <h4>10,000 m<sup>2</sup> de amenidades en un espacio para la convivencia, recreación y deporte.</h4>
             <div class="container">
                 <div class="row">
-                    <div class="col-12 col-md-5 d-flex align-items-center flex-column justify-content-around" data-aos="fade-right">
+                    <div class="col-12 col-lg-5 d-flex align-items-center flex-column justify-content-around" data-aos="fade-right">
                         <p style="font-size: 1.2rem;">
                             Ubicado en el corazón de Península, Jardín Península será el centro y punto de encuentro para quienes integrarán nuestra nueva comunidad. Estará integrado por diversas instalaciones recreativas, deportivas y de convivencia:
                         </p>
-                        <ul>
+                        <ul class="two-columns">
                             <li><strong>Huerto</strong></li>
                             <li><strong>Casa Club</strong></li>
                             <li><strong>Alberca</strong></li>
                             <li><strong>Asadores</strong></li>
                             <li><strong>Kids Zone</strong></li>
                             <li><strong>Pet Park</strong></li>
-                            <li><strong>Sport Zone: </strong>cancha de usos múltiples, cancha de padel, andadores para Jogging.</li>
+                            <li><strong>Sport Zone *</strong><br /><em>* cancha de usos múltiples, cancha de padel, andadores para Jogging.</em></li>
                         </ul>
                     </div>
-                    <div class="col-12 col-md-7" data-aos="zoom">
-                        <div xo-source="#desarrollos" xo-stylesheet="gallery.xslt">
-                            <img class="img-fluid" src="./assets/img/jardin_peninsula.jpg" />
+                    <div class="col-12 col-lg-7" data-aos="zoom">
+                        <div xo-source="#desarrollos" xo-stylesheet="gallery.xslt" xo-suspense="Intersect">
+                            <img class="img-fluid" src="./assets/desarrollos/peninsula/gallery/ammenities.jpg" />
                         </div>
                     </div>
                 </div>
@@ -288,23 +296,23 @@
         </section>
 
         <section>
-                <style>
-                    article img {
-                        display: block;
-                        height: 100%;
-                        max-height: 300px;
-                    }
+            <style>
+                article img {
+                    display: block;
+                    height: 100%;
+                    max-height: 300px;
+                }
 
-                    section {
-                        width: 100%;
-                        overflow: hidden;
-                    }
+                section {
+                    width: 100%;
+                    overflow: hidden;
+                }
 
-                    article {
-                        display: flex;
-                        width: 200%;
-                        animation: bannermove 20s linear infinite;
-                    }
+                article {
+                    display: flex;
+                    width: 200%;
+                    animation: bannermove 20s linear infinite;
+                }
 
                     article.paused {
                         -webkit-animation-play-state: paused;
@@ -318,108 +326,98 @@
                         margin: 0;
                     }
 
-                    @keyframes bannermove {
-                        0% {
-                            transform: translateX(0);
-                        }
-
-                        100% {
-                            transform: translateX(-50%);
-                        }
+                @keyframes bannermove {
+                    0% {
+                        transform: translateX(0);
                     }
-                </style>
-                <!--<button>Pause</button>-->
-                <article>
-                    <div class="row">
-                        <ul>
-                            <li><img src="./assets/gallery/beautiful-girl-running-park.jpg" /></li>
-                            <li><img src="./assets/gallery/beautiful-women-works-garden.jpg" /></li>
-                            <li><img src="./assets/gallery/dad-swimming-with-his-happy-son-pool.jpg" /></li>
-                            <li><img src="./assets/gallery/elegant-mother-with-daughter-summer-forest.jpg" /></li>
-                            <li><img src="./assets/gallery/female-tennis-player-tennis-court.jpg" /></li>
-                            <li><img src="./assets/gallery/fountains-garden.jpg" /></li>
-                            <li><img src="./assets/gallery/front-view-woman-legs-running-outside.jpg" /></li>
-                            <li><img src="./assets/gallery/portrait-couple-with-their-dog-park.jpg" /></li>
-                            <li><img src="./assets/gallery/running-twenties-hispanic-lifestyle-laughing.jpg" /></li>
-                            <li><img src="./assets/gallery/side-view-happy-woman-nature.jpg" /></li>
-                            <li><img src="./assets/gallery/side-view-woman-holding-palette.jpg" /></li>
-                            <li><img src="./assets/gallery/side-view-woman-standing-outdoors.jpg" /></li>
-                            <li><img src="./assets/gallery/young-happy-man-browsing-internet-touchpad-while-relaxing-sofa-living-room.jpg" /></li>
-                            <li><img src="./assets/gallery/young-men-roasting-barbecue-grill-cottage-countryside.jpg" /></li>
-                            <li><img src="./assets/gallery/young-woman-with-her-dog-park.jpg" /></li>
-                        </ul>
-                    </div>
-                    <div class="row">
-                        <ul>
-                            <li><img src="./assets/gallery/beautiful-girl-running-park.jpg" /></li>
-                            <li><img src="./assets/gallery/beautiful-women-works-garden.jpg" /></li>
-                            <li><img src="./assets/gallery/dad-swimming-with-his-happy-son-pool.jpg" /></li>
-                            <li><img src="./assets/gallery/elegant-mother-with-daughter-summer-forest.jpg" /></li>
-                            <li><img src="./assets/gallery/female-tennis-player-tennis-court.jpg" /></li>
-                            <li><img src="./assets/gallery/fountains-garden.jpg" /></li>
-                            <li><img src="./assets/gallery/front-view-woman-legs-running-outside.jpg" /></li>
-                            <li><img src="./assets/gallery/portrait-couple-with-their-dog-park.jpg" /></li>
-                            <li><img src="./assets/gallery/running-twenties-hispanic-lifestyle-laughing.jpg" /></li>
-                            <li><img src="./assets/gallery/side-view-happy-woman-nature.jpg" /></li>
-                            <li><img src="./assets/gallery/side-view-woman-holding-palette.jpg" /></li>
-                            <li><img src="./assets/gallery/side-view-woman-standing-outdoors.jpg" /></li>
-                            <li><img src="./assets/gallery/young-happy-man-browsing-internet-touchpad-while-relaxing-sofa-living-room.jpg" /></li>
-                            <li><img src="./assets/gallery/young-men-roasting-barbecue-grill-cottage-countryside.jpg" /></li>
-                            <li><img src="./assets/gallery/young-woman-with-her-dog-park.jpg" /></li>
-                        </ul>
-                    </div>
-                    <!--<div class="row">
-                        <ul>
-                            <li><img src="http://dummyimage.com/600x400/000000/ffffff.png" /></li>
-                            <li><img src="http://dummyimage.com/600x400/eeeeee/cccccc.png" /></li>
-                            <li><img src="http://dummyimage.com/600x400/000000/ffffff.png" /></li>
-                            <li><img src="http://dummyimage.com/600x400/eeeeee/cccccc.png" /></li>
-                        </ul>
-                    </div>-->
-                </article>
+
+                    100% {
+                        transform: translateX(-50%);
+                    }
+                }
+            </style>
+            <!--<button>Pause</button>-->
+            <article>
+                <div class="row">
+                    <ul>
+                        <li><img src="./assets/gallery/beautiful-girl-running-park.jpg" /></li>
+                        <li><img src="./assets/gallery/beautiful-women-works-garden.jpg" /></li>
+                        <li><img src="./assets/gallery/dad-swimming-with-his-happy-son-pool.jpg" /></li>
+                        <li><img src="./assets/gallery/elegant-mother-with-daughter-summer-forest.jpg" /></li>
+                        <li><img src="./assets/gallery/female-tennis-player-tennis-court.jpg" /></li>
+                        <li><img src="./assets/gallery/fountains-garden.jpg" /></li>
+                        <li><img src="./assets/gallery/front-view-woman-legs-running-outside.jpg" /></li>
+                        <li><img src="./assets/gallery/portrait-couple-with-their-dog-park.jpg" /></li>
+                        <li><img src="./assets/gallery/running-twenties-hispanic-lifestyle-laughing.jpg" /></li>
+                        <li><img src="./assets/gallery/side-view-happy-woman-nature.jpg" /></li>
+                        <li><img src="./assets/gallery/side-view-woman-holding-palette.jpg" /></li>
+                        <li><img src="./assets/gallery/side-view-woman-standing-outdoors.jpg" /></li>
+                        <li><img src="./assets/gallery/young-happy-man-browsing-internet-touchpad-while-relaxing-sofa-living-room.jpg" /></li>
+                        <li><img src="./assets/gallery/young-men-roasting-barbecue-grill-cottage-countryside.jpg" /></li>
+                        <li><img src="./assets/gallery/young-woman-with-her-dog-park.jpg" /></li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <ul>
+                        <li><img src="./assets/gallery/beautiful-girl-running-park.jpg" /></li>
+                        <li><img src="./assets/gallery/beautiful-women-works-garden.jpg" /></li>
+                        <li><img src="./assets/gallery/dad-swimming-with-his-happy-son-pool.jpg" /></li>
+                        <li><img src="./assets/gallery/elegant-mother-with-daughter-summer-forest.jpg" /></li>
+                        <li><img src="./assets/gallery/female-tennis-player-tennis-court.jpg" /></li>
+                        <li><img src="./assets/gallery/fountains-garden.jpg" /></li>
+                        <li><img src="./assets/gallery/front-view-woman-legs-running-outside.jpg" /></li>
+                        <li><img src="./assets/gallery/portrait-couple-with-their-dog-park.jpg" /></li>
+                        <li><img src="./assets/gallery/running-twenties-hispanic-lifestyle-laughing.jpg" /></li>
+                        <li><img src="./assets/gallery/side-view-happy-woman-nature.jpg" /></li>
+                        <li><img src="./assets/gallery/side-view-woman-holding-palette.jpg" /></li>
+                        <li><img src="./assets/gallery/side-view-woman-standing-outdoors.jpg" /></li>
+                        <li><img src="./assets/gallery/young-happy-man-browsing-internet-touchpad-while-relaxing-sofa-living-room.jpg" /></li>
+                        <li><img src="./assets/gallery/young-men-roasting-barbecue-grill-cottage-countryside.jpg" /></li>
+                        <li><img src="./assets/gallery/young-woman-with-her-dog-park.jpg" /></li>
+                    </ul>
+                </div>
+                <!--<div class="row">
+                    <ul>
+                        <li><img src="http://dummyimage.com/600x400/000000/ffffff.png" /></li>
+                        <li><img src="http://dummyimage.com/600x400/eeeeee/cccccc.png" /></li>
+                        <li><img src="http://dummyimage.com/600x400/000000/ffffff.png" /></li>
+                        <li><img src="http://dummyimage.com/600x400/eeeeee/cccccc.png" /></li>
+                    </ul>
+                </div>-->
+            </article>
         </section>
     </main>
 
     <!-- Footer -->
     <section class="footer section-dark">
-        <div class="container">
+        <div class="container py-5">
             <div class="row d-flex justify-content-center m" data-aos="zoom">
                 <img class="logo" src="./assets/desarrollos/peninsula/brand/pareja/isotipo_vertical_letras_blancas.png" style="max-width: 200px; margin: 5rem;" />
             </div>
-            <div class="row" data-aos="fade-right">
-                <div class="col-12 py-2">
-                    <div class="d-flex align-items-evenly justify-content-center" style="gap:50px;">
-                        <div class="d-flex align-items-center py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
-                            <i class="fas fa-caret-right"></i>
-                            <a href="#aviso_privacidad">
-                                <p class="ms-3">
-                                    Aviso de privacidad
-                                </p>
-                            </a>
-                        </div>
-                        <div class="d-flex align-items-center py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
-                            <i class="fas fa-caret-right"></i>
-                            <a href="#codigo_etica">
-                                <p class="ms-3">
-                                    Código de ética
-                                </p>
-                            </a>
-                        </div>
-                        <div class="d-flex align-items-center py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
-                            <i class="fas fa-caret-right"></i>
-                            <a href="#terminos_condiciones">
-                                <p class="ms-3">
-                                    Términos y condiciones
-                                </p>
-                            </a>
-                        </div>
-                    </div>
+            <div data-aos="fade-right" class="row d-flex justify-content-center">
+                <div class="col-8 col-lg-4 d-flex justify-space-around" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                    <i class="fas fa-caret-right"></i>
+                    <a href="#aviso_privacidad">
+                        <p class="ms-3">Aviso de privacidad</p>
+                    </a>
+                </div>
+                <div class="col-8 col-lg-4 d-flex justify-space-around" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                    <i class="fas fa-caret-right"></i>
+                    <a href="#codigo_etica">
+                        <p class="ms-3">Código de ética</p>
+                    </a>
+                </div>
+                <div class="col-8 col-lg-4 d-flex justify-space-around" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                    <i class="fas fa-caret-right"></i>
+                    <a href="#terminos_condiciones">
+                        <p class="ms-3">Términos y condiciones</p>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="offcanvas offcanvas-bottom xo-skip-compare" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel" xo-stylesheet="content-manager.xslt" xo-source="active">
+    <div class="offcanvas offcanvas-bottom xo-skip-compare" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel" xo-stylesheet="content-manager.xslt" xo-source="#desarrollos">
     </div>
 
     <!-- Bottom -->
