@@ -13,7 +13,7 @@
 }
 ]]>
 		</style>
-		<img src="/assets/desarrollos/{$state:desarrollo}/loteador.png" orgwidth="4656" width="500" border="0" usemap="#map" class="map" />
+		<img src="../assets/desarrollos/{$state:desarrollo}/loteador.png" orgwidth="4656" width="500" border="0" usemap="#map" class="map" />
 		<map name="map"/>
 	</xsl:template>
 </xsl:stylesheet>
