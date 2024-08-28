@@ -14,7 +14,7 @@
 			<script type="text/javascript" src="./mapselection.js">loteador.inicializar()</script>
 			<style>
 				<![CDATA[#Mapa .map {
-	background: url('/assets/desarrollos/]]><xsl:value-of select="$state:desarrollo"/><![CDATA[/loteador.png');
+	background: url('../assets/desarrollos/]]><xsl:value-of select="$state:desarrollo"/><![CDATA[/loteador.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	width: 100%;
@@ -56,7 +56,7 @@
             }
         }]]>
 			</script>
-			<img id="masterplan" src="/assets/desarrollos/{$state:desarrollo}/loteador.jpg" orgwidth="3117" width="4382" border="0" usemap="#map" class="map" />
+			<img id="masterplan" src="../assets/desarrollos/{$state:desarrollo}/loteador.jpg" orgwidth="3117" width="4382" border="0" usemap="#map" class="map" />
 			<map name="map">
 				<area shape="poly" coords="2242,819,2188,868,2083,752,2153,687,2165,686,2178,691" alt="L15" target="peninsula_400" href="#" />
 				<area shape="poly" coords="2187,867,2083,752,2028,803,2134,920" alt="L14" target="peninsula_402" href="#" />
