@@ -65,9 +65,9 @@ div#Filtros div:not(:has(h4>:checked)) .filter_option span {
 	top: 0;
 }
 
-form:not([desarrollo*="$"]) #Mapa, form:not([desarrollo*="$"]) > * {
+/*form:not([desarrollo*="$"]) #Mapa, form:not([desarrollo*="$"]) > * {
 	background-color: var(--brand-dark-color);
-}
+}*/
 
 form[desarrollo=zarzuela] #Mapa, form[desarrollo=zarzuela] > * {
 	background-color: #725e2d;
