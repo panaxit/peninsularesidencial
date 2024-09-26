@@ -5,16 +5,16 @@
 		factory(root.jQuery);
 	}
 })(this, function ($) {
-	var has_VML, has_canvas, create_canvas_for, add_shape_to, clear_canvas, shape_from_area,
+	let has_VML, has_canvas, create_canvas_for, add_shape_to, clear_canvas, shape_from_area,
 		canvas_style, hex_to_decimal, css3color, is_image_loaded, options_from_area;
 
 	has_canvas = !!document.createElement('canvas').getContext;
 
 	// VML: more complex
 	has_VML = (function () {
-		var a = document.createElement('div');
+		let a = document.createElement('div');
 		a.innerHTML = '<v:shape id="vml_flag1" adj="1" />';
-		var b = a.firstChild;
+		let b = a.firstChild;
 		b.style.behavior = "url(#default#VML)";
 		return b ? typeof b.adj == "object" : true;
 	})();
@@ -32,11 +32,11 @@
 			return 'rgba(' + hex_to_decimal(color.substr(0, 2)) + ',' + hex_to_decimal(color.substr(2, 2)) + ',' + hex_to_decimal(color.substr(4, 2)) + ',' + opacity + ')';
 		};
 		create_canvas_for = function (img) {
-			var c = $('<canvas style="width:' + $(img).width() + 'px;height:' + $(img).height() + 'px;"></canvas>').get(0);
+			let c = $('<canvas style="width:' + $(img).width() + 'px;height:' + $(img).height() + 'px;"></canvas>').get(0);
 			c.getContext("2d").clearRect(0, 0, $(img).width(), $(img).height());
 			return c;
 		};
-		var draw_shape = function (context, shape, coords, x_shift, y_shift) {
+		let draw_shape = function (context, shape, coords, x_shift, y_shift) {
 			x_shift = x_shift || 0;
 			y_shift = y_shift || 0;
 
@@ -56,7 +56,7 @@
 			context.closePath();
 		};
 		add_shape_to = function (canvas, shape, coords, options, name) {
-			var i, context = canvas.getContext('2d');
+			let i, context = canvas.getContext('2d');
 
 			// Because I don't want to worry about setting things back to a base state
 
@@ -73,8 +73,8 @@
 				// Redraw the shape shifted off the canvas massively so we can cast a shadow
 				// onto the canvas without having to worry about the stroke or fill (which
 				// cannot have 0 opacity or width, since they're what cast the shadow).
-				var x_shift = canvas.width * 100;
-				var y_shift = canvas.height * 100;
+				let x_shift = canvas.width * 100;
+				let y_shift = canvas.height * 100;
 				draw_shape(context, shape, coords, x_shift, y_shift);
 
 				context.shadowOffsetX = options.shadowX - x_shift;
@@ -85,7 +85,7 @@
 				// Now, work out where to cast the shadow from! It looks better if it's cast
 				// from a fill when it's an outside shadow or a stroke when it's an interior
 				// shadow. Allow the user to override this if they need to.
-				var shadowFrom = options.shadowFrom;
+				let shadowFrom = options.shadowFrom;
 				if (!shadowFrom) {
 					if (options.shadowPosition == 'outside') {
 						shadowFrom = 'fill';
@@ -146,8 +146,8 @@
 			return $('<var style="zoom:1;overflow:hidden;display:block;width:' + img.width + 'px;height:' + img.height + 'px;"></var>').get(0);
 		};
 		add_shape_to = function (canvas, shape, coords, options, name) {
-			var fill, stroke, opacity, e;
-			for (var i in coords) { coords[i] = parseInt(coords[i], 10); }
+			let fill, stroke, opacity, e;
+			for (let i in coords) { coords[i] = parseInt(coords[i], 10); }
 			fill = '<v:fill color="#' + options.fillColor + '" opacity="' + (options.fill ? options.fillOpacity : 0) + '" />';
 			stroke = (options.stroke ? 'strokeweight="' + options.strokeWidth + '" stroked="t" strokecolor="#' + options.strokeColor + '"' : 'stroked="f"');
 			opacity = '<v:stroke opacity="' + options.strokeOpacity + '"/>';
@@ -163,14 +163,14 @@
 		};
 		clear_canvas = function (canvas) {
 			// jquery1.8 + ie7
-			var $html = $("<div>" + canvas.innerHTML + "</div>");
+			let $html = $("<div>" + canvas.innerHTML + "</div>");
 			$html.children('[name=highlighted]').remove();
 			$(canvas).html($html.html());
 		};
 	}
 
 	shape_from_area = function (area) {
-		var i, coords,
+		let i, coords,
 			shape = (area.getAttribute('shape') || 'rect').toLowerCase().substr(0, 4);
 		if (shape === 'defa') {
 			// 'default' doesn't really apply to what we're doing; it's the background state
@@ -182,7 +182,7 @@
 	};
 
 	options_from_area = function (area, options) {
-		var $area = $(area);
+		let $area = $(area);
 		return $.extend({}, options, $.metadata ? $area.metadata() : false, $area.data('maphilight'));
 	};
 
@@ -200,15 +200,15 @@
 		border: 0
 	};
 
-	var ie_hax_done = false;
+	let ie_hax_done = false;
 	$.fn.maphilight = function (opts) {
 		opts = $.extend({}, $.fn.maphilight.defaults, opts);
 
 		if (!has_canvas && !ie_hax_done) {
 			$(window).ready(function () {
 				document.namespaces.add("v", "urn:schemas-microsoft-com:vml");
-				var style = document.createStyleSheet();
-				var shapes = ['shape', 'rect', 'oval', 'circ', 'fill', 'stroke', 'imagedata', 'group', 'textbox'];
+				let style = document.createStyleSheet();
+				let shapes = ['shape', 'rect', 'oval', 'circ', 'fill', 'stroke', 'imagedata', 'group', 'textbox'];
 				$.each(shapes,
 					function () {
 						style.addRule('v\\:' + this, "behavior: url(#default#VML); antialias:true");
@@ -219,7 +219,7 @@
 		}
 
 		return this.each(function () {
-			var img, wrap, options, map, canvas, canvas_always, highlighted_shape, usemap, imgSrc;
+			let img, wrap, options, map, canvas, canvas_always, highlighted_shape, usemap, imgSrc;
 			img = $(this);
 
 			if (!is_image_loaded(this)) {
@@ -248,7 +248,7 @@
 			if (img.hasClass('maphilighted')) {
 				// We're redrawing an old map, probably to pick up changes to the options.
 				// Just clear out all the old stuff.
-				var wrapper = img.parent();
+				let wrapper = img.parent();
 				img.insertBefore(wrapper);
 				wrapper.remove();
 				$(map).unbind('.maphilight');
@@ -294,7 +294,7 @@
 					$(canvas).empty();
 				}
 				$(map).find('area[coords]').each(function () {
-					var shape, area_options;
+					let shape, area_options;
 					area_options = options_from_area(this, options);
 					if (area_options.alwaysOn) {
 						if (!canvas_always && has_canvas) {
@@ -318,7 +318,7 @@
 				});
 			}).trigger('alwaysOn.maphilight')
 				.bind('mouseover.maphilight focusin.maphilight', function (e) {
-					var shape, area_options, area = e.target;
+					let shape, area_options, area = e.target;
 					area_options = options_from_area(area, options);
 					if (!area_options.neverOn && !area_options.alwaysOn) {
 						shape = shape_from_area(area);
@@ -330,21 +330,21 @@
 							if (typeof area_options.groupBy == 'string') {
 								area_options.groupBy = [area_options.groupBy];
 							}
-							var el = $(this);
+							let el = $(this);
 							$.each(area_options.groupBy, function (index, groupitem) {
-								var areas;
+								let areas;
 								// two ways groupBy might work; attribute and selector
 								if (/^[a-zA-Z][\-a-zA-Z]+$/.test(groupitem)) {
 									areas = map.find('area[' + groupitem + '="' + el.attr(groupitem) + '"]');
 								} else {
 									areas = map.find(groupitem);
 								}
-								var first = this;
+								let first = this;
 								areas.each(function () {
 									if (this != first) {
-										var subarea_options = options_from_area(this, options);
+										let subarea_options = options_from_area(this, options);
 										if (!subarea_options.neverOn && !subarea_options.alwaysOn) {
-											var shape = shape_from_area(this);
+											let shape = shape_from_area(this);
 											add_shape_to(canvas, shape[0], shape[1], subarea_options, "highlighted");
 										}
 									}

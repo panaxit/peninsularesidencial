@@ -54,6 +54,11 @@ form:not([desarrollo*="$"]) #Mapa {
 	background-color: rgba(0, 0, 0, .5);
 	padding: 20px;
 	flex-direction: column;
+	visibility: hidden;
+}
+
+#Filtros:has(*) {
+	visibility: visible;
 }
 
 div#Filtros div:not(:has(h4>:checked)) .filter_option span {

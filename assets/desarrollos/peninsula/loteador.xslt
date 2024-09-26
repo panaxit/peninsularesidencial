@@ -1,5 +1,7 @@
-﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml" xmlns:state="http://panax.io/state">
+﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml" xmlns:state="http://panax.io/state" xmlns:session="http://panax.io/session">
 	<xsl:param name="state:desarrollo">(xover.site.seed || '').replace(/^#/,'')</xsl:param>
+	<xsl:param name="session:status"></xsl:param>
+	<xsl:param name="session:user_login"></xsl:param>
 	<xsl:template match="/">
 		<div class="draggable" style=" width: 100px;
             height: 100vh;

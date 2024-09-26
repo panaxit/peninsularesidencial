@@ -101,8 +101,8 @@ const color_array = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
     '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
     '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF']/*generateComplementaryColors(baseColor, numColors);*/
 
-var filters = {}
-var attributes, attribute_pattern, value_attribute, text_attribute, oSource; //Definimos a este nivel para que sean accesibles dentro de las funciones jquery
+let filters = {}
+let attributes, attribute_pattern, value_attribute, text_attribute, oSource; //Definimos a este nivel para que sean accesibles dentro de las funciones jquery
 async function actualizaColores(oSource) {
     function rgbToHex(rgb) {
         if (!rgb) return undefined;
@@ -118,11 +118,11 @@ async function actualizaColores(oSource) {
         return `#${r}${g}${b}`;
     }
 
-    let xmlData = xo.stores[location.hash];
+    let xmlData = xo.stores[xo.site.seed || location.hash];
     if (!xmlData.documentElement) await xmlData.fetch();
     xmlData = xmlData.document;
 
-    let desarrollo_id = (location.hash || '').replace(/^#/, '').toLowerCase();
+    let desarrollo_id = xo.site.seed.replace(/^#/, '').toLowerCase();
     let xmlFilters = xover.sources[`#${desarrollo_id}:settings`];
     if (!xmlFilters.documentElement) await xmlFilters.fetch();
     let sFilters_bind = `${xmlFilters.find('filters').attr('bind')}`;
@@ -131,7 +131,7 @@ async function actualizaColores(oSource) {
     attribute_pattern = undefined;
     value_attribute = undefined;
     text_attribute = undefined;
-    var bind;
+    let bind;
     //first = $(xmlData).find('filters').select('filter').first().attr("bind");
 
     let filter = xmlFilters.select('//filters/filter').filter(function (filter) {
@@ -152,9 +152,9 @@ async function actualizaColores(oSource) {
     //$(xmlData).find('filters').select('filter[bind="' + first + '"]').select('option').each(function () {
     //    filters[filter.attr("value")] = filter.attr("color") //.replace(/\s+/gi, "-")
     //})
-    var binding = String(attributes["value"]).match(/^(.+)?(@[^\]]+?)$/);
-    var path = binding[1];
-    var attribute = binding[2];
+    let binding = String(attributes["value"]).match(/^(.+)?(@[^\]]+?)$/);
+    let path = binding[1];
+    let attribute = binding[2];
     if (path) path = String(path).replace(/\/$/, '').replace(/\//, '>');
     attribute = attribute.replace(/^@/, '');
     [document.querySelector(`[name="filter_headers"]:checked`)].filter(el => el).map(radio => radio.closest(`.filter[bind]`)).pop()
@@ -284,7 +284,7 @@ function getValueObjectFromTree(oNode, full_path) {
 
     let values = {};
     if (path) {
-        path = String(path).replace(/\/$/, '').replace(/\//, '>'); /*Primer replace quita �ltima diagonal*//*Segundo replace cambia diagonales por "mayor que" para buscarlo como selector*/
+        path = String(path).replace(/\/$/, '').replace(/\//, '>'); /*Primer replace quita última diagonal*//*Segundo replace cambia diagonales por "mayor que" para buscarlo como selector*/
         $(xmlTree).find(path).each(function () {
             let oNode = $(this);
             let val = oNode.attr(attribute);
@@ -307,7 +307,7 @@ function getValueFromTree(oNode, full_path) {
 
     let values = [];
     if (path) {
-        path = String(path).replace(/\/$/, '').replace(/\//, '>'); /*Primer replace quita �ltima diagonal*//*Segundo replace cambia diagonales por "mayor que" para buscarlo como selector*/
+        path = String(path).replace(/\/$/, '').replace(/\//, '>'); /*Primer replace quita última diagonal*//*Segundo replace cambia diagonales por "mayor que" para buscarlo como selector*/
         $(xmlTree).find(path).each(function () {
             let element = $(this);
             values.push(element.attr(attribute));
@@ -372,11 +372,11 @@ function testConditions(oNode, conditions) {
 }
 
 async function Colorea(oSource) {
-    let xmlData = xo.stores[location.hash];
+    let xmlData = xo.stores[xo.site.seed || location.hash];
     if (!xmlData.documentElement) await xmlData.fetch();
     xmlData = xmlData.document;
 
-    let desarrollo_id = (location.hash || '').replace(/^#/, '').toLowerCase();
+    let desarrollo_id = xo.site.seed.replace(/^#/, '').toLowerCase();
     let xmlFilters = xover.sources[`#${desarrollo_id}:settings`];
     if (!xmlFilters.documentElement) await xmlFilters.fetch();
     if (oSource && oSource.closest(`.filter`) && !oSource.closest("#Filtros,body").querySelector(`[name="filter_headers"]:checked`)) {
@@ -402,10 +402,10 @@ function mutuallyExclusiveClick() {
 
 async function iluminarMapa(conditions) {
     conditions = (conditions || {});
-    let xmlData = xo.stores[location.hash];
+    let xmlData = xo.stores[xo.site.seed || location.hash];
     if (!xmlData.documentElement) await xmlData.fetch();
     xmlData = xmlData.document;
-    let desarrollo_id = (location.hash || '').replace(/^#/, '');
+    let desarrollo_id = xo.site.seed.replace(/^#/, '').toLowerCase();
 
     let xmlFilters = xover.sources[`#${desarrollo_id}:settings`];
     if (!xmlFilters.documentElement) await xmlFilters.fetch();
@@ -434,12 +434,12 @@ async function iluminarMapa(conditions) {
 let ubicacion_seleccionada = undefined;
 let binding = {}
 binding.bindData = function (scope, attribute, x_source, removeAttribute) {
-    scope.find('*[' + attribute + ']').each(function () { // Buscamos dentro del detalle todos los nodos que son visibles dependiendo de un atributo (S�lo uno. TODO: que puedan ser m�s de un atributo y con operadores and y or)
+    scope.find('*[' + attribute + ']').each(function () { // Buscamos dentro del detalle todos los nodos que son visibles dependiendo de un atributo (Sólo uno. TODO: que puedan ser más de un atributo y con operadores and y or)
         let condition = $(this).attr('visible');
         let bindings = condition.match(/{{[^}]+}}/);
         for (let b = 0; b < bindings.length; b++) {
             let attr = bindings[b]; //Recuperamos el nombre del atributo a enlazar.
-            let value = String(getValueFromTree(x_source, attr.replace(/[{}]/gi, ''))); //Recuperamos el valor sin importar la profundidad a la que est� definido
+            let value = String(getValueFromTree(x_source, attr.replace(/[{}]/gi, ''))); //Recuperamos el valor sin importar la profundidad a la que está definido
             value = (value.length ? "'" + value + "'" : value);
             condition = condition.replace(attr, value)
         }
@@ -481,7 +481,7 @@ function resize() {
             Colorea();
             return true;
         };
-        window.removeEventListener('resize', resize );
+        window.removeEventListener('resize', resize);
         window.addEventListener('resize', resize);
     },
         imageMap = new ImageMap(document.querySelector(`map`));
@@ -490,12 +490,14 @@ function resize() {
 }
 
 loteador = {};
+loteador.limpiar = function () {
+    window.document.querySelectorAll(`.loteador,#Filtros`).select(`.//html:canvas|.//@data-maphilight|*[@bind]`).remove()
+}
 loteador.inicializar = async function () {
     (function () {
         //$('.map').maphilight();
-        previousWidth = 0;
+        let previousWidth = 0;
         let img = document.querySelector('img[usemap]');
-
         $('img[usemap]').maphilight();
 
         $('area').click(async function (e) {
@@ -508,14 +510,12 @@ loteador.inicializar = async function () {
                 ubicacion_seleccionada = txtIdentificador
             }
 
-
             //$('#ViviendaDetalles').show();
-
-            let xmlData = xo.stores[location.hash];
+            let xmlData = xo.stores[xo.site.seed || location.hash];
             if (!xmlData.documentElement) await xmlData.fetch();
             xmlData = xmlData.document;
 
-            let desarrollo_id = (location.hash || '').replace(/^#/, '').toLowerCase();
+            let desarrollo_id = xo.site.seed.replace(/^#/, '').toLowerCase();
             let xmlFilters = xover.sources[`#${desarrollo_id}:settings`];
             if (!xmlFilters.documentElement) await xmlFilters.fetch();
 
@@ -524,15 +524,15 @@ loteador.inicializar = async function () {
             let target_node = undefined;
             if (ubicacion_seleccionada) {
                 target_node = $(xmlData).find(sFilters_bind + '[' + sElement_id + '="' + ubicacion_seleccionada + '"]'); //Recuperamos el nodo en el XML correspondiente al nodo seleccionado.
-                // TODO: Informar que si el nodo seleccionado no tiene correspondencia, considerar que a veces esto es con toda la intención, pues el rango obtenido podr�a estar filtrado.
+                // TODO: Informar que si el nodo seleccionado no tiene correspondencia, considerar que a veces esto es con toda la intención, pues el rango obtenido podría estar filtrado.
                 let htmlDetails = $(xmlFilters).find('details').clone(); // Clon xamos el html de los detalles
                 //binding.bindData(htmlDetails, 'visible', target_node);
-                htmlDetails.find('*[visible]').each(function () { // Buscamos dentro del detalle todos los nodos que son visibles dependiendo de un atributo (S�lo uno. TODO: que puedan ser m�s de un atributo y con operadores and y or)
+                htmlDetails.find('*[visible]').each(function () { // Buscamos dentro del detalle todos los nodos que son visibles dependiendo de un atributo (Sólo uno. TODO: que puedan ser más de un atributo y con operadores and y or)
                     let condition = $(this).attr('visible');
                     let bindings = condition.match(/{{[^}]+}}/);
                     for (let b = 0; b < bindings.length; b++) {
                         let attr = bindings[b]; //Recuperamos el nombre del atributo a enlazar.
-                        let value = String(getValueFromTree(target_node, attr.replace(/[{}]/gi, ''))); //Recuperamos el valor sin importar la profundidad a la que est� definido
+                        let value = String(getValueFromTree(target_node, attr.replace(/[{}]/gi, ''))); //Recuperamos el valor sin importar la profundidad a la que está definido
                         value = (value.length ? "'" + value + "'" : value);
                         condition = condition.replace(attr, value)
                     }
@@ -546,12 +546,12 @@ loteador.inicializar = async function () {
 
                 htmlDetails.find('*[bind]').each(function () { // Buscamos dentro del detalle todos los nodos que fueron marcados para hacer binding
                     let attr = $(this).attr('bind'); //Recuperamos el nombre del atributo a enlazar. 
-                    let value = getValueFromTree(target_node, attr); //Recuperamos el valor sin importar la profundidad a la que est� definido
+                    let value = getValueFromTree(target_node, attr); //Recuperamos el valor sin importar la profundidad a la que está definido
                     if (!value) {
                         $(this).remove();
                     } else {
                         $(this).removeAttr('bind'); //Quitamos el atributo para que no se renderee
-                        $(this).html(value.join()); //Colocamos el valor, si es m�s de un valor lo concatenamos
+                        $(this).html(value.join()); //Colocamos el valor, si es más de un valor lo concatenamos
                     }
                 });
 
@@ -560,10 +560,10 @@ loteador.inicializar = async function () {
                     let bindings = condition.match(/{{[^}]+}}/);
                     for (let b = 0; b < bindings.length; b++) {
                         let attr = bindings[b]; //Recuperamos el nombre del atributo a enlazar.
-                        let value = String(getValueFromTree(target_node, attr.replace(/[{}]/gi, ''))); //Recuperamos el valor sin importar la profundidad a la que est� definido
+                        let value = String(getValueFromTree(target_node, attr.replace(/[{}]/gi, ''))); //Recuperamos el valor sin importar la profundidad a la que está definido
                         condition = condition.replace(attr, value)
                     }
-                    $(this).attr('value', condition); //Colocamos el valor, si es m�s de un valor lo concatenamos
+                    $(this).attr('value', condition); //Colocamos el valor, si es más de un valor lo concatenamos
 
                 });
                 $('#ViviendaDetalles').html(htmlDetails.get(0).innerHTML);
@@ -600,10 +600,10 @@ loteador.inicializar = async function () {
     })();
 
     let color, txtBind;
-    let xmlData = xo.stores[location.hash];
+    let xmlData = xo.stores[xo.site.seed || location.hash];
     if (!xmlData.documentElement) await xmlData.fetch();
     xmlData = xmlData.document;
-    let desarrollo_id = (location.hash || '').replace(/^#/, '').toLowerCase();
+    let desarrollo_id = xo.site.seed.replace(/^#/, '').toLowerCase();
     let xmlFilters = xover.sources[`#${desarrollo_id}:settings`];
 
     //let mapDoc = xo.sources[location.hash + ':loteador'];

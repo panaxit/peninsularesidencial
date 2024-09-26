@@ -15,11 +15,12 @@
     "#terminos_condiciones": "./assets/terminos_condiciones.resx",
     "^#(.+)~edit$": "#$1",
     "#ws": {
-      "server:ws": [
+      "xover.socket.connect": [
         "ws://localhost:8003",
         {
           "message": "#messages",
-          "hotreload": "event:hotreload"
+          "hotreload": "event:hotreload",
+          "databaseChange": "event:databaseChange"
         }
       ]
     }

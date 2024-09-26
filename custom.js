@@ -123,33 +123,34 @@ function formatPhoneNumber(number) {
 
 Phone = () => formatPhoneNumber(xo.session.phone || "");
 
-xover.server.ws = function (url, listeners = {}) {
-    try {
-        if (!window.io) return;
-        const socket_io = window.io(url, { transports: ['websocket'] });
+xo.listener.on('load::data', function () {
+    window.loteador && loteador.inicializar()
+})
 
-        for (let [listener, handler] of Object.entries(listeners)) {
-            socket_io.on(listener, async function (...args) {
-                //let data = event.data || "[]";
-                //let args2 = JSON.parse(`[` + data.split("[")[1]);
-                //let [, file_name] = args;
-                if (!handler) {
-                    return
-                } else if (existsFunction(handler)) {
-                    let fn = eval(handler);
-                    response = await fn.apply(this, args.length ? args : parameters);
-                } else if (handler[0] == '#') {
-                    let source = xo.sources[handler];
-                    await source.ready;
-                    source.documentElement.append(xo.xml.createNode(`<item/ >`).textContent = args.join())
-                } else if (handler.indexOf("event:") == 0) {
-                    window.document.dispatch.apply(document, [handler.split(":").pop(), ...args])
-                } else {
-                    window.document.dispatch.apply(document, [handler, ...args])
-                } 
-            })
-        }
-    } catch (e) {
-        return Promise.reject(e);
+xo.listener.on('logout', function () {
+    window.loteador && window.loteador.limpiar()
+    xover.stores.seed.clear()
+})
+
+xo.listener.on('Response:reject?response.response_value.message', function ({ response }) {
+    for (let container of [document.querySelector('.toast-container')]) {
+        container.replaceContent(HTML(`<div class="toast align-items-center text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+  <div class="d-flex">
+    <div class="toast-body">
+      ${response.response_value.message}
+    </div>
+    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+</div>`))
+        container.dispatch('show')
     }
-}
+    event.preventDefault()
+    event.stopPropagation()
+})
+
+xo.listener.on(`show::.toast-container`, function () {
+    for (let toastTrigger of this.findAll('.toast')) {
+        const toast = new bootstrap.Toast(toastTrigger);
+        toast.show();
+    }
+})
