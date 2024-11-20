@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <settings>
+	<template class="details" xmlns="http://www.w3.org/1999/xhtml">
+		<div class="col-12 image">
+			<img class="img-fluid" src="" />
+		</div>
+		<div>
+			<div class="row g-3">
+				<div class="col-sm-12">
+					<label for="lote" class="form-label">Lote: </label>
+					<label id="lote"></label>
+					<!--<input type="text" class="form-control" id="lote" readonly=""/>-->
+				</div>
+				<div class="col-sm-12">
+					<label for="manzana" class="form-label">Manzana: </label>
+					<label id="manzana"></label>
+				</div>
+				<div class="col-sm-12">
+					<label for="terreno" class="form-label">Área: </label>
+					<!--<input type="text" class="form-control" id="terreno" readonly=""/>-->
+					<label id="terreno"></label>
+					<label>m<sup>2</sup></label>
+				</div>
+			</div>
+		</div>
+	</template>
 	<filters bind="data/item" id="Id">
 		<filter title="Disponibilidad" bind="@Status">
 			<option value="Disponible" color="#97d933"/>
@@ -11,7 +35,7 @@
 			<option text="130 a 150m2" value="130~149.999" color="#007fff"/>
 			<option text="150 a 190m2" value="150~189.999" color="#ffcc00"/>
 			<option text="190 a 220m2" value="190~219.999" color="#99ff00"/>
-			<option text="Mayor a 220m2" value="220~500" color="#ff6633"/>			
+			<option text="Mayor a 220m2" value="220~500" color="#ff6633"/>
 		</filter>
 		<!--<filter title="Precio" bind="@PrecioVenta">
 			<option text="700K - 800K" value="700000~800000"/>

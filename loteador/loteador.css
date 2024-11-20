@@ -30,7 +30,6 @@ form:not([desarrollo*="$"]) #Mapa {
 
 .filter {
 	background-color: white;
-	border: green solid 5px;
 	padding: 1rem;
 	min-width: 250px;
 }
@@ -45,38 +44,125 @@ form:not([desarrollo*="$"]) #Mapa {
 	margin-right:auto;
 	}
 
-#Filtros {
+.card-flipper {
 	bottom: 20px;
 	position: fixed;
 	left: 20px;
-	max-height: fit-content;
-	width: fit-content;
+	height: 400px;
+	width: 300px;
 	background-color: rgba(0, 0, 0, .5);
 	padding: 20px;
 	flex-direction: column;
 	visibility: hidden;
 }
 
-#Filtros:has(*) {
+.card-flipper:has(#Filtros > *) {
 	visibility: visible;
 }
 
-div#Filtros div:not(:has(h4>:checked)) .filter_option span {
-	background-color: white !important;
-	/* border: silver solid 1px; */
+/* Card flipper start */
+/*.card-flipper {
+	transition: height 0.3s ease, width 0.3s ease;
 }
 
-[desarrollo=zarzuela] #Filtros {
-	top: 0;
+.card-flipper .card {
+	backface-visibility: hidden;*/ /* Hides the back face when flipped */
+	/*transform-style: preserve-3d;
+	transition: transform 0.6s ease, opacity 0.6s ease;
+	border-radius: 10px;
+	width: 100%;
+	background-color: transparent;
+}
+
+.card-flipper.toggled .front {
+	display: none; 
+}
+
+.card-flipper.toggled .back {
+	display: block; 
+}
+
+.card-flipper:not(.toggled) .front {
+	display: block;
+}
+
+.card-flipper:not(.toggled) .back {
+	display: none;
+}
+*/
+.card-flipper {
+    perspective: 1000px;  /*For 3D effect */
+	height: 400px;
+	width: 300px;
+	padding-inline: 1.5rem;
+}
+
+.card-flipper .card {
+	position: absolute;
+	backface-visibility: hidden; /*Hides the back face when flipped */
+	transform-style: preserve-3d;
+	transition: transform 0.6s ease;
+	width: 270px;
+	border-radius: 0 0 70px 0;
+}
+
+.card-flipper .card > * {
+	border-radius: 0 0 70px 0;
+}
+
+.card-flipper .card.back {
+	transform: rotateY(180deg);
+}
+
+.card-flipper.toggled .card.front {
+	transform: rotateY(180deg);  
+}
+
+.card-flipper.toggled .card.back {
+	transform: rotateY(360deg);  
+}
+/* Card flipper end */
+
+.card-flipper .image {
+	padding: .5rem;
+	padding-bottom: 1.5rem;
+}
+
+.card-flipper .image svg {
+    overflow: visible;
+	max-height: 200px;
+}
+
+.card-flipper .image svg > * {
+	fill: var(--brand-dark-color);
+	stroke: var(--brand-light-color);
+}
+
+.card-flipper .back .row {
+	margin-bottom: 1rem;
+}
+
+.card-flipper .back .row > * {
+	flex-direction: row;
+    display: flex;
+	margin-top: 0;
+}
+
+.card-flipper .back label[id] {
+	font-size: 14pt;
+	font-weight: bolder;
+	margin-inline: .5rem;
+}
+
+
+div.card-flipper div:not(:has(h4>:checked)) .filter_option span {
+	background-color: white !important;
+	/* border: silver solid 1px; */
 }
 
 /*form:not([desarrollo*="$"]) #Mapa, form:not([desarrollo*="$"]) > * {
 	background-color: var(--brand-dark-color);
 }*/
-
-form[desarrollo=zarzuela] #Mapa, form[desarrollo=zarzuela] > * {
-	background-color: #725e2d;
-}
 
 dialog.xover-component form > * {
 	background-color: initial;

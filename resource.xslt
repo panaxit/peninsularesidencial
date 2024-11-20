@@ -5,7 +5,7 @@ xmlns:resx="http://panax.io/resx">
 	
 	<xsl:output method="xml"/>
 	<xsl:template match="/*">
-		<p id="message" xmlns="http://www.w3.org/1999/xhtml">
+		<p class="branded-message">
 			<xsl:apply-templates select="data[@name=$key]"/>
 		</p>
 	</xsl:template>
@@ -21,7 +21,7 @@ xmlns:resx="http://panax.io/resx">
 			<xsl:value-of select="$title" disable-output-escaping="yes"/>
 		</strong>
 		<xsl:text/>
-		<br xmlns="http://www.w3.org/1999/xhtml"/>
+		<br/>
 		<xsl:text/>
 		<xsl:value-of select="$value" disable-output-escaping="yes"/>
 	</xsl:template>

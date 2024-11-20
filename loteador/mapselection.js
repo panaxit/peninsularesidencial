@@ -87,10 +87,10 @@ function componentToHex(component) {
 }
 
 // Ejemplo de uso
-const baseColor = "#FF0000"; // Color base en formato hexadecimal (rojo)
-const numColors = 2; // Número de colores complementarios a generar
+var baseColor = "#FF0000"; // Color base en formato hexadecimal (rojo)
+var numColors = 2; // Número de colores complementarios a generar
 
-const color_array = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
+var color_array = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
     '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
     '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
     '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
@@ -101,8 +101,8 @@ const color_array = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
     '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
     '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF']/*generateComplementaryColors(baseColor, numColors);*/
 
-let filters = {}
-let attributes, attribute_pattern, value_attribute, text_attribute, oSource; //Definimos a este nivel para que sean accesibles dentro de las funciones jquery
+var filters = {}
+var attributes, attribute_pattern, value_attribute, text_attribute, oSource; //Definimos a este nivel para que sean accesibles dentro de las funciones jquery
 async function actualizaColores(oSource) {
     function rgbToHex(rgb) {
         if (!rgb) return undefined;
@@ -342,8 +342,9 @@ function testConditions(oNode, conditions) {
     let compliesOverall = true;
     let and_array = [];
     for (let property in conditions) {
-        let or_array = []
-        for (let value of conditions[property].keys()) {
+        let or_array = [];
+        let entries = typeof (conditions[property].keys) == 'function' ? conditions[property].keys() : Object.keys(conditions[property]);
+        for (let value of entries) {
             if (value.indexOf(`~`) != -1) {
                 let [min, max] = value.split("~");
                 or_array.push(`${property}>=${min} and ${property}<=${max}`);
@@ -379,6 +380,9 @@ async function Colorea(oSource) {
     let desarrollo_id = xo.site.seed.replace(/^#/, '').toLowerCase();
     let xmlFilters = xover.sources[`#${desarrollo_id}:settings`];
     if (!xmlFilters.documentElement) await xmlFilters.fetch();
+    if (oSource instanceof HTMLAreaElement) {
+        coloreaLote(oSource, '#ffffff')
+    }
     if (oSource && oSource.closest(`.filter`) && !oSource.closest("#Filtros,body").querySelector(`[name="filter_headers"]:checked`)) {
         oSource.closest(`.filter`).querySelector(`[name="filter_headers"]`).checked = true;
     }
@@ -426,13 +430,13 @@ async function iluminarMapa(conditions) {
             $(oLote).data('maphilight', data);
         }
     };
-    if (!document.querySelector(`[name="filter_headers"]:checked`)) return;
+    if (!(document.querySelector(`[name="filter_headers"]:checked`) || Object.keys(conditions).length)) return;
     $("map").trigger('alwaysOn.maphilight');
 }
 
 
-let ubicacion_seleccionada = undefined;
-let binding = {}
+var ubicacion_seleccionada = undefined;
+var binding = {}
 binding.bindData = function (scope, attribute, x_source, removeAttribute) {
     scope.find('*[' + attribute + ']').each(function () { // Buscamos dentro del detalle todos los nodos que son visibles dependiendo de un atributo (Sólo uno. TODO: que puedan ser más de un atributo y con operadores and y or)
         let condition = $(this).attr('visible');
@@ -452,7 +456,7 @@ binding.bindData = function (scope, attribute, x_source, removeAttribute) {
     });
 }
 
-let previousWidth = 0
+var previousWidth = 0
 function resize() {
     let ImageMap = function (map) {
         let n,
@@ -489,6 +493,12 @@ function resize() {
     imageMap.resize();
 }
 
+xover.listener.on([`mouseover::area`, `focusin::area`], function () {
+    for (let item of xo.stores[xo.site.seed || location.hash].documentElement.select(`//item[@Id="${this.target.replace(/^[^_]+_/, '')}"]`)) {
+
+    }
+})
+
 loteador = {};
 loteador.limpiar = function () {
     window.document.querySelectorAll(`.loteador,#Filtros`).select(`.//html:canvas|.//@data-maphilight|*[@bind]`).remove()
@@ -499,104 +509,6 @@ loteador.inicializar = async function () {
         let previousWidth = 0;
         let img = document.querySelector('img[usemap]');
         $('img[usemap]').maphilight();
-
-        $('area').click(async function (e) {
-            e.preventDefault();
-            let txtIdentificador = $(this).attr('id');
-            if (ubicacion_seleccionada == txtIdentificador) {
-                ubicacion_seleccionada = undefined;
-            }
-            else {
-                ubicacion_seleccionada = txtIdentificador
-            }
-
-            //$('#ViviendaDetalles').show();
-            let xmlData = xo.stores[xo.site.seed || location.hash];
-            if (!xmlData.documentElement) await xmlData.fetch();
-            xmlData = xmlData.document;
-
-            let desarrollo_id = xo.site.seed.replace(/^#/, '').toLowerCase();
-            let xmlFilters = xover.sources[`#${desarrollo_id}:settings`];
-            if (!xmlFilters.documentElement) await xmlFilters.fetch();
-
-            let sFilters_bind = $(xmlFilters).find('filters').attr('bind'); //Recuperamos el nombre del nodo con el que se hace el binding principal
-            let sElement_id = $(xmlFilters).find('filters').attr('id'); //Recuperamos el nombre del atributo del nodo principal
-            let target_node = undefined;
-            if (ubicacion_seleccionada) {
-                target_node = $(xmlData).find(sFilters_bind + '[' + sElement_id + '="' + ubicacion_seleccionada + '"]'); //Recuperamos el nodo en el XML correspondiente al nodo seleccionado.
-                // TODO: Informar que si el nodo seleccionado no tiene correspondencia, considerar que a veces esto es con toda la intención, pues el rango obtenido podría estar filtrado.
-                let htmlDetails = $(xmlFilters).find('details').clone(); // Clon xamos el html de los detalles
-                //binding.bindData(htmlDetails, 'visible', target_node);
-                htmlDetails.find('*[visible]').each(function () { // Buscamos dentro del detalle todos los nodos que son visibles dependiendo de un atributo (Sólo uno. TODO: que puedan ser más de un atributo y con operadores and y or)
-                    let condition = $(this).attr('visible');
-                    let bindings = condition.match(/{{[^}]+}}/);
-                    for (let b = 0; b < bindings.length; b++) {
-                        let attr = bindings[b]; //Recuperamos el nombre del atributo a enlazar.
-                        let value = String(getValueFromTree(target_node, attr.replace(/[{}]/gi, ''))); //Recuperamos el valor sin importar la profundidad a la que está definido
-                        value = (value.length ? "'" + value + "'" : value);
-                        condition = condition.replace(attr, value)
-                    }
-
-                    if (!eval(condition)) {
-                        $(this).remove();
-                    } else {
-                        $(this).removeAttr('visible'); //Quitamos el atributo para que no se renderee
-                    }
-                });
-
-                htmlDetails.find('*[bind]').each(function () { // Buscamos dentro del detalle todos los nodos que fueron marcados para hacer binding
-                    let attr = $(this).attr('bind'); //Recuperamos el nombre del atributo a enlazar. 
-                    let value = getValueFromTree(target_node, attr); //Recuperamos el valor sin importar la profundidad a la que está definido
-                    if (!value) {
-                        $(this).remove();
-                    } else {
-                        $(this).removeAttr('bind'); //Quitamos el atributo para que no se renderee
-                        $(this).html(value.join()); //Colocamos el valor, si es más de un valor lo concatenamos
-                    }
-                });
-
-                htmlDetails.find('*[value]').each(function () { // Buscamos dentro del detalle todos los nodos que fueron marcados para hacer binding
-                    let condition = $(this).attr('value');
-                    let bindings = condition.match(/{{[^}]+}}/);
-                    for (let b = 0; b < bindings.length; b++) {
-                        let attr = bindings[b]; //Recuperamos el nombre del atributo a enlazar.
-                        let value = String(getValueFromTree(target_node, attr.replace(/[{}]/gi, ''))); //Recuperamos el valor sin importar la profundidad a la que está definido
-                        condition = condition.replace(attr, value)
-                    }
-                    $(this).attr('value', condition); //Colocamos el valor, si es más de un valor lo concatenamos
-
-                });
-                $('#ViviendaDetalles').html(htmlDetails.get(0).innerHTML);
-                //let oPrototipo = $(xmlData).find(sFilters_bind+'['+sElement_id+'="' + ubicacion_seleccionada + '"]');
-            } else {
-                $('#ViviendaDetalles').html('');
-            }
-
-            $('#ViviendaDetalles').removeClass()
-            $('#ViviendaDetalles').addClass($(target_node).attr('ViviendaDetallesCSS'))
-
-            //$('#datosPrivados').removeClass()
-            //$('#datosPrivados').addClass($(oPrototipo).attr('DatosPrivadosCSS'))
-
-            //$('#sEstacion').html($(oPrototipo).attr('estacion'));
-
-            $("#panel").slideDown("slow");
-            $(".btn-slide").toggleClass("active");
-
-            if (ubicacion_seleccionada) {
-                let oVivienda = $("#" + ubicacion_seleccionada);
-                if (oVivienda) {
-                    //coloreaLote(oVivienda, '#80FF00');
-                    let conditions = { "@Identificador": {} }
-                    conditions["@Identificador"][ubicacion_seleccionada] = { "color": "blue" }
-                    iluminarMapa(conditions);
-                }
-            } else {
-                Colorea();
-            }
-
-            return false;
-        });
     })();
 
     let color, txtBind;
@@ -630,7 +542,7 @@ loteador.inicializar = async function () {
         let txtNombreFiltro = bind.replace(/[\W@]/ig, '_');
 
         let container = xo.xml.createNode(`<span class='col'/>`);
-        let div = xo.xml.createNode(`<div xmlns="http://www.w3.org/1999/xhtml" id="${txtNombreFiltro}" bind="${bind}" class='filter col-12 col-sm-6 col-md-4 col-xs-4 col-lg-3 col-xl-2'><h4 style='cursor:pointer;'><input type="radio" id="radio_${txtNombreFiltro}" name="filter_headers" onchange="Colorea(this)"/><label for="radio_${txtNombreFiltro}">${filter.attr("title")}</label></h4></div>`)
+        let div = xo.xml.createNode(`<div xmlns="http://www.w3.org/1999/xhtml" id="${txtNombreFiltro}" bind="${bind}" class="filter col-12 col-sm-6 col-md-4 col-xs-4 col-lg-3 col-xl-2"><h4 style='cursor:pointer;'><input type="radio" id="radio_${txtNombreFiltro}" name="filter_headers" onchange="Colorea(this)"/><label for="radio_${txtNombreFiltro}">${filter.attr("title")}</label></h4></div>`)
         container.append(div);
         target.append(div);
 
@@ -657,4 +569,106 @@ loteador.inicializar = async function () {
     actualizaColores();
     resize()
     Colorea();
+}
+
+xover.listener.on(`click`, async function (e) {
+    document.querySelector(".card-flipper").classList.remove("toggled")
+    Colorea();
+})
+
+xover.listener.on(`click::area`, async function (e) {
+    e.preventDefault();
+    e.stopImmediatePropagation()
+    let txtIdentificador = $(this).attr('id') || `#${$(this).attr('target')}`.replace(`${xover.site.seed}_`, '');
+    if (ubicacion_seleccionada == txtIdentificador) {
+        ubicacion_seleccionada = undefined;
+    }
+    else {
+        ubicacion_seleccionada = txtIdentificador
+    }
+
+    //$('#DetalleSeleccion').show();
+    let xmlData = xo.stores[xo.site.seed || location.hash];
+    if (!xmlData.documentElement) await xmlData.fetch();
+    xmlData = xmlData.document;
+
+    let desarrollo_id = xo.site.seed.replace(/^#/, '').toLowerCase();
+    let xmlFilters = xover.sources[`#${desarrollo_id}:settings`];
+    if (!xmlFilters.documentElement) await xmlFilters.fetch();
+    let template = xmlFilters.querySelector('template.details');
+    if (!template) return;
+    template = template.content.cloneNode(true);
+    let sFilters_bind = $(xmlFilters).find('filters').attr('bind'); //Recuperamos el nombre del nodo con el que se hace el binding principal
+    let sElement_id = $(xmlFilters).find('filters').attr('id'); //Recuperamos el nombre del atributo del nodo principal
+    let target_node = undefined;
+    if (ubicacion_seleccionada) {
+        target_node = xmlData.single(`${sFilters_bind}[@${sElement_id}="${ubicacion_seleccionada}"]`); //Recuperamos el nodo en el XML correspondiente al nodo seleccionado.
+        // TODO: Informar que si el nodo seleccionado no tiene correspondencia, considerar que a veces esto es con toda la intención, pues el rango obtenido podría estar filtrado.
+        if (!target_node) return;
+        for (let input of template.querySelectorAll('[id]')) {
+            attr = target_node.attributes[input.id] || [...target_node.attributes].find(attr => attr.localName.toLowerCase() == (input.id || "").toLowerCase()) || {};
+            if (input instanceof HTMLInputElement) {
+                input.value = attr.value
+            } else {
+                input.textContent = attr.value
+            }
+        }
+        let svg = areaToSvg(this)
+        template.querySelector("img").replaceWith(svg);
+        document.querySelector("#Detalles").setAttribute("xo-source", "active")
+        document.querySelector("#Detalles").setAttribute("xo-scope", target_node.getAttribute("xo:id"))
+        document.querySelector("#Detalles").replaceChildren(...template.childNodes)
+        document.querySelector(".card-flipper").classList.add("toggled")
+    }
+    if (ubicacion_seleccionada) {
+        coloreaLote(this, '#80FF00');
+        let conditions = { "@Id": {} }
+        conditions["@Id"][ubicacion_seleccionada] = { "color": "blue" }
+        iluminarMapa(conditions);
+    } else {
+        Colorea();
+    }
+    return false;
+})
+
+function areaToSvg(areaElement) {
+    if (!areaElement || areaElement.tagName !== "AREA") {
+        throw new Error("Invalid area element");
+    }
+
+    // Get the coordinates from the area element
+    const coords = areaElement.getAttribute("coords").split(",").map(Number);
+
+    // Split coordinates into pairs of [x, y]
+    const points = [];
+    for (let i = 0; i < coords.length; i += 2) {
+        points.push({ x: coords[i], y: coords[i + 1] });
+    }
+
+    // Find minimum x and y to offset the points
+    const minX = Math.min(...points.map(p => p.x));
+    const minY = Math.min(...points.map(p => p.y));
+
+    // Offset the points to start at (0, 0)
+    const adjustedPoints = points.map(p => `${p.x - minX},${p.y - minY}`).join(" ");
+
+    // Create the SVG element
+    const svgNamespace = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(svgNamespace, "svg");
+    svg.setAttribute("xmlns", svgNamespace);
+    svg.setAttribute("viewBox", `0 0 ${Math.max(...points.map(p => p.x - minX))} ${Math.max(...points.map(p => p.y - minY))}`);
+    svg.setAttribute("width", "100%");
+    svg.setAttribute("height", "100%");
+
+    // Create the polygon element
+    const polygon = document.createElementNS(svgNamespace, "polygon");
+    polygon.setAttribute("points", adjustedPoints);
+    polygon.setAttribute("fill", "current");
+    polygon.setAttribute("stroke", "black");
+    polygon.setAttribute("stroke-width", "2");
+
+    // Append the polygon to the SVG
+    svg.appendChild(polygon);
+
+    return svg;
 }

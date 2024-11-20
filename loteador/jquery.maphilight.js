@@ -320,7 +320,7 @@
 				.bind('mouseover.maphilight focusin.maphilight', function (e) {
 					let shape, area_options, area = e.target;
 					area_options = options_from_area(area, options);
-					if (!area_options.neverOn && !area_options.alwaysOn) {
+					if (!area_options.neverOn/* && !area_options.alwaysOn*/) {
 						shape = shape_from_area(area);
 						if (!shape) {
 							return;

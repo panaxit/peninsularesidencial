@@ -82,18 +82,17 @@ body {
     font-family: 'Montserrat', sans-serif !important;
 }
 
-main #header p {
+.branded-message {
     /*min-width: 600px;*/
     min-height: 115px;
     position: relative;
     border-radius: 0 0 60px 0;
     overflow: hidden;
     line-height: 1.5;
-    padding-right: 5rem !important;
     margin-right: 1rem;
 }
 
-main #header p::after {
+.branded-message::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -105,7 +104,20 @@ main #header p::after {
     pointer-events: none;
 }
 
+p.branded-message strong {
+    color: var(--brand-light-color);
+    padding-right: 3rem !important;
+}
+
+.branded-message {
+    background-color: var(--brand-dark-color);
+    border: 2pt solid var(--brand-light-color);
+    padding: 1rem 2rem 1rem 3rem;
+    white-space: nowrap;
+}
+
 main #header p strong {
+    text-align: center;
     font-size: 1.6rem;
 }
 
@@ -143,19 +155,6 @@ body > footer {
     min-height: max-content;
     align-items: center;
     display: flex;
-}
-
-main #header p strong {
-    color: var(--brand-light-color);
-}
-
-main #header p {
-    text-align: center;
-    background-color: var(--brand-dark-color);
-    border: 2pt solid var(--brand-light-color);
-    padding: 1rem 2rem 1rem 3rem;
-    white-space: nowrap;
-    
 }
 
 .styled-scroll {

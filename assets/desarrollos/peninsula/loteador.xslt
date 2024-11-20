@@ -12,8 +12,8 @@
             cursor: grab;
             user-select: none;
             transition: transform 0.1s ease-out; ">
-			<script type="text/javascript" defer="defer" src="./jquery.maphilight.js"></script>
-			<script type="text/javascript" src="./mapselection.js">loteador.inicializar()</script>
+			<script type="text/javascript" defer="defer" src="/loteador/jquery.maphilight.js"></script>
+			<script type="text/javascript" src="/loteador/mapselection.js">loteador.inicializar()</script>
 			<style>
 				<![CDATA[#Mapa .map {
 	background: url('../assets/desarrollos/]]><xsl:value-of select="$state:desarrollo"/><![CDATA[/loteador.png');

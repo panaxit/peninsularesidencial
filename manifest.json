@@ -33,6 +33,11 @@
   },
   "start": [ "#desarrollos", "#site", "./navbar.html", "./footer.html", "./iconos.xslt", "#ws" ],
   "settings": {
+    "~.asp": {
+      "headers": {
+        "x-referer-id": "${xover.session.referer_id}"
+      }
+    },
     "~.map": {
       "headers": {
         "accept": "text/plain",
