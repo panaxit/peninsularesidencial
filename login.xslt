@@ -32,7 +32,7 @@ xmlns:login="http://widgets.panaxbi.com/login"
 	</xsl:template>
 
 	<xsl:template match="*" mode="login:widget">
-		<div class="login" xo:use-attribute-sets="login:widget" style="position:fixed; bottom:1.5rem; left:1rem;">
+		<div class="login" xo:use-attribute-sets="login:widget">
 			<xsl:if test="$js:secure='true'">
 				<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css"/>
 				<script src="https://accounts.google.com/gsi/client" async="" defer=""></script>
@@ -48,22 +48,16 @@ xmlns:login="http://widgets.panaxbi.com/login"
 					<div>
 						<xsl:apply-templates mode="login:button" select="."/>
 					</div>
-					<div class="xo-static">
+					<div xo-static="">
 						<xsl:if test="$js:secure='true'">
 							<xsl:if test="$meta:google-signin-client_id!='' and $js:secure='true' and $session:status!='authorizing'">
 								<!--<div class="g-signin2" data-onsuccess="onGoogleLogin" ></div>-->
 								<div id="g_id_onload"
 								data-client_id="{$meta:google-signin-client_id}"
 								data-callback="onGoogleLogin"
-								data-auto_prompt="true">
-								</div>
-								<div class="g_id_signin signup_button"
-									 data-type="standard"
-									 data-size="large"
-									 data-theme="outline"
-									 data-text="sign_in_with"
-									 data-shape="rectangular"
-									 data-logo_alignment="left">
+								data-auto_prompt="true"
+								xo-scope=""
+								>
 								</div>
 							</xsl:if>
 						</xsl:if>
@@ -82,7 +76,7 @@ xmlns:login="http://widgets.panaxbi.com/login"
 					<xsl:text>Bienvenido, </xsl:text>
 					<xsl:value-of select="$session:user_login"/>
 				</xsl:when>
-				<xsl:when test="$meta:google-signin-client_id!=''">
+				<xsl:when test="$meta:google-signin-client_id!='' and $session:status!='authorized'">
 					<xsl:attribute name="style">display:none !important;</xsl:attribute>
 				</xsl:when>
 				<xsl:when test="$session:status='authorizing'">
@@ -91,5 +85,23 @@ xmlns:login="http://widgets.panaxbi.com/login"
 				<xsl:otherwise>Ingresar</xsl:otherwise>
 			</xsl:choose>
 		</button>
+		<xsl:if test="$js:secure='true'">
+			<div class="g_id_signin signup_button" 
+				 data-type="standard"
+				 data-size="large"
+				 data-theme="outline"
+				 data-text="sign_in_with"
+				 data-shape="rectangular"
+				 data-logo_alignment="left"
+				 xo-scope=""
+				 xo-static="*"
+		>
+				<xsl:choose>
+					<xsl:when test="$session:status='authorized'">
+						<xsl:attribute name="style">display:none !important;</xsl:attribute>
+					</xsl:when>
+				</xsl:choose>
+			</div>
+		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

@@ -141,6 +141,19 @@ main #header p strong {
     filter: brightness(0) invert(0);
 }
 
+.login {
+    position: fixed;
+    bottom: 2rem;
+    left: 20rem;
+}
+
+.login button {
+    background-color: white;
+    height: 43.99px;
+    padding: .3rem 1rem !important;
+    /*color: var(--brand-dark-color);*/
+}
+
 body {
     padding-bottom: var(--footer-height);
 }

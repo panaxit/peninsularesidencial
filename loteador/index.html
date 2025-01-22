@@ -8,11 +8,11 @@
     <!--<meta http-equiv="refresh" content="30">-->
     <link href="../css/style.css" rel="stylesheet" type="text/css" />
     <link href="loteador.css" rel="stylesheet" type="text/css" />
-    <link rel="xover-manifest" href="../manifest.json?v=20240828_0221">
-    <link rel="xover-manifest" href="manifest.json?v=20240828_0221">
-    <script type="text/javascript" src="../xover/xo.js?v=20240828_0221"></script>
-    <script type="text/javascript" src="../custom.js?v=20240828_0221"></script>
-    <script type="text/javascript" src="../socket.io.js?v=20240828_0221"></script>
+    <link rel="xover-manifest" href="../manifest.json?v=20240119_1600">
+    <link rel="xover-manifest" href="manifest.json?v=20240119_1600">
+    <script type="text/javascript" src="../xover/xo.js?v=20240119_1600"></script>
+    <script type="text/javascript" src="../custom.js?v=20240119_1600"></script>
+    <script type="text/javascript" src="../socket.io.js?v=20240119_1600"></script>
     <script type="text/javascript" src="jquery.min.js"></script>
     <link rel="icon" href="../assets/img/icon.png" type="image/x-icon" />
 
@@ -193,7 +193,7 @@
 
             </div>
         </div>
-        <div class="login" style="position:fixed; top:1.5rem; left:15rem;" xo-stylesheet="login.xslt"></div>
+        <div class="login" xo-stylesheet="login.xslt"></div>
         <div class="d-flex justify-content-around zoom-controls" style="position: fixed; top: 20px; right: 20px; z-index: 1000; gap: 20px; padding: 10px 20px; flex-direction: column;">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-zoom-out" viewBox="0 0 16 16" onclick="for (let target of this.closest('form').querySelectorAll('.zoomable')) { target.style.transform = `scale(${Math.abs(+target.style.transform.replace(/[^\d\.]/g, '') - .18)})`; target.style.translate = target.style.translate.split(/\s+/).map(percent => `${parseFloat(percent) / 2}%`).join(' ') }" style="cursor: pointer; user-select: none;">
                 <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"></path>

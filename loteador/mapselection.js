@@ -163,12 +163,11 @@ async function actualizaColores(oSource) {
         active_filter = oSource.closest('.filter[bind]');
 
     }
-    let color_list = active_filter && Object.fromEntries([[active_filter].map(filter => [filter.getAttribute("bind"), new Map(filter.querySelectorAll(`.filter_option [type="checkbox"]`).toArray().filter(checkbox => checkbox.previousElementSibling).map(checkbox => [checkbox.getAttribute("filtervalue"), checkbox.previousElementSibling.style.backgroundColor]))]).filter(([key, values]) => values.size)[0]]);
+    let color_list = active_filter && Object.fromEntries([[active_filter].map(filter => [filter.getAttribute("bind"), new Map(filter.querySelectorAll(`.filter [type="checkbox"]`).toArray().filter(checkbox => checkbox.previousElementSibling).map(checkbox => [checkbox.getAttribute("filtervalue"), checkbox.previousElementSibling.style.backgroundColor]))]).filter(([key, values]) => values.size)[0]]);
     if (!color_list) return;
     for (let element of xmlData.select(sFilters_bind)) {
         let oLote = document.querySelector(`area[target="${desarrollo_id}_${element.attr(sElement_id)}"]`)
         if (oLote) {
-            let attributes = [...element.attributes];
             let color = Object.entries(color_list).map(([selector, options]) => [...options].find((test) => testConditions(element, Object.fromEntries([[selector, new Map([test])]]))) || []).filter(el => el).map(([, value]) => value).pop();
             //let color = Object.entries(color_list).map(([selector, options]) => [attributes.find(attr => attr.matches(selector)), options]).map(([attr, options]) => options.get(attr.value)).pop();
             coloreaLote(oLote, rgbToHex(color));
@@ -338,7 +337,7 @@ function getValueFromObject(oNode, path) {
     return value;
 }
 
-function testConditions(oNode, conditions) {
+function buildConditions(conditions) {
     let compliesOverall = true;
     let and_array = [];
     for (let property in conditions) {
@@ -353,22 +352,15 @@ function testConditions(oNode, conditions) {
             }
         }
         and_array.push(`[${or_array.join(' or ')}]`)
-        //if (property.match(/^@/)) {
-        //    if (!conditions[property].hasOwnProperty(String((oNode.attr(property.replace(/^@/, '')) || "")))) {//.replace(/\s+/gi, "-")
-        //        compliesOverall = false;
-        //    }
-        //} else {
-        //    let complies = false;
-        //    oNode.select(property).each(function () {
-        //        if (!complies) {
-        //            complies = testConditions($(this), conditions[property]);
-        //        }
-        //    })
-        //    if (!complies) compliesOverall = false;
-        //}
-        //if (compliesOverall == false) return false;
     }
-    let complies = !!oNode.selectFirst(`self::*${and_array.join('')}`)
+    return and_array.join('');
+}
+
+function testConditions(oNode, conditions) {
+    if (typeof (conditions) != "string") {
+        conditions = buildConditions(conditions);
+    }
+    let complies = !!oNode.selectFirst(`self::*${conditions}`)
     return complies;
 }
 
@@ -386,7 +378,7 @@ async function Colorea(oSource) {
     if (oSource && oSource.closest(`.filter`) && !oSource.closest("#Filtros,body").querySelector(`[name="filter_headers"]:checked`)) {
         oSource.closest(`.filter`).querySelector(`[name="filter_headers"]`).checked = true;
     }
-    let conditions = Object.fromEntries(document.querySelector(`#Filtros`).querySelectorAll(`.filter[bind]`).toArray().map(filter => [filter.getAttribute("bind"), new Map(filter.querySelectorAll(`.filter_option [type="checkbox"]:checked`).toArray().map(checkbox => [checkbox.getAttribute("value"), checkbox.previousElementSibling ? checkbox.previousElementSibling.style.backgroundColor : '']))]).filter(([key, values]) => values.size))
+    let conditions = Object.fromEntries(document.querySelector(`#Filtros`).querySelectorAll(`.filter[bind]`).toArray().map(filter => [filter.getAttribute("bind"), new Map(filter.querySelectorAll(`.filter [type="checkbox"]:checked`).toArray().map(checkbox => [checkbox.getAttribute("value"), checkbox.previousElementSibling ? checkbox.previousElementSibling.style.backgroundColor : '']))]).filter(([key, values]) => values.size))
     //for (let filter of xmlFilters.select(`//filters/filter`)) {
     //    let bind = filter.attr('bind');
 
@@ -401,7 +393,7 @@ async function Colorea(oSource) {
 }
 
 function mutuallyExclusiveClick() {
-    event.srcElement.closest('.filter').querySelectorAll('[type="checkbox"]:checked').toArray().filter(checkbox => checkbox.closest('.filter_option') != event.srcElement.closest('.filter_option')).forEach(checkbox => checkbox.checked = false)
+    event.srcElement.closest('.filter').querySelectorAll('[type="checkbox"]:checked').toArray().filter(checkbox => checkbox.closest('.filter_option,.filter') == event.srcElement.closest('.filter_option,.filter')).forEach(checkbox => checkbox.checked = false)
 }
 
 async function iluminarMapa(conditions) {
@@ -416,6 +408,7 @@ async function iluminarMapa(conditions) {
 
     let sFilters_bind = $(xmlFilters).find('filters').attr('bind');
     let sElement_id = $(xmlFilters).find('filters').attr('id');
+    conditions = buildConditions(conditions);
     for (let element of xmlData.select(sFilters_bind)) {
         let txtIdentificador = `area[target="${desarrollo_id}_${element.attr(sElement_id)}"]`;
         let oLote = document.querySelector(txtIdentificador);
@@ -492,12 +485,6 @@ function resize() {
 
     imageMap.resize();
 }
-
-xover.listener.on([`mouseover::area`, `focusin::area`], function () {
-    for (let item of xo.stores[xo.site.seed || location.hash].documentElement.select(`//item[@Id="${this.target.replace(/^[^_]+_/, '')}"]`)) {
-
-    }
-})
 
 loteador = {};
 loteador.limpiar = function () {
